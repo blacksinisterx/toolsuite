@@ -9,6 +9,8 @@ export type ToolCategory =
   | 'archives'
   | 'data'
   | 'web'
+  | 'video'
+  | 'audio'
 
 export interface ToolMeta {
   id: string

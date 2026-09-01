@@ -11,6 +11,8 @@ export const CATEGORIES: CategoryMeta[] = [
   { id: 'archives', label: 'Archives', description: 'Create and extract ZIP files' },
   { id: 'data', label: 'Data', description: 'View, clean and convert CSV and JSON' },
   { id: 'web', label: 'Web', description: 'URL, sitemap and meta-tag tools for site owners' },
+  { id: 'video', label: 'Video', description: 'Convert, compress, trim and export video' },
+  { id: 'audio', label: 'Audio', description: 'Convert, trim and adjust audio' },
 ]
 
 // Every tool here is fully working and 100% client-side (Phase 1 scope).
@@ -85,6 +87,20 @@ export const TOOLS: ToolMeta[] = [
   { id: 'og-generator', name: 'Open Graph Generator', description: 'Generate Open Graph and Twitter Card meta tags.', category: 'web', path: '/web/og-generator', keywords: ['open graph', 'og', 'meta', 'twitter card'], processing: 'client' },
   { id: 'robots-generator', name: 'Robots.txt Generator', description: 'Build a robots.txt with rules per user-agent.', category: 'web', path: '/web/robots-generator', keywords: ['robots.txt', 'crawler', 'generator'], processing: 'client' },
   { id: 'sitemap-generator', name: 'Sitemap Generator', description: 'Turn a list of URLs into a sitemap.xml.', category: 'web', path: '/web/sitemap-generator', keywords: ['sitemap', 'xml', 'seo', 'generator'], processing: 'client' },
+
+  // Video
+  { id: 'video-convert', name: 'Video Converter', description: 'Convert between MP4, WebM, MOV, AVI and MKV.', category: 'video', path: '/video/convert', keywords: ['video', 'convert', 'mp4', 'webm', 'mov', 'avi', 'mkv'], processing: 'client' },
+  { id: 'video-compress', name: 'Video Compressor', description: 'Shrink a video file with an adjustable quality slider.', category: 'video', path: '/video/compress', keywords: ['video', 'compress', 'shrink', 'reduce'], processing: 'client' },
+  { id: 'video-trim', name: 'Video Trimmer', description: 'Cut a video down to a start and end time.', category: 'video', path: '/video/trim', keywords: ['video', 'trim', 'cut', 'clip'], processing: 'client' },
+  { id: 'video-to-gif', name: 'Video to GIF', description: 'Turn a video clip into an animated GIF.', category: 'video', path: '/video/to-gif', keywords: ['video', 'gif', 'convert', 'animated'], processing: 'client' },
+  { id: 'video-extract-audio', name: 'Extract Audio', description: 'Pull the audio track out of a video.', category: 'video', path: '/video/extract-audio', keywords: ['video', 'audio', 'extract', 'mp3'], processing: 'client' },
+  { id: 'video-resize', name: 'Change Video Resolution', description: 'Resize a video to a new resolution.', category: 'video', path: '/video/resize', keywords: ['video', 'resize', 'resolution', '1080p', '720p'], processing: 'client' },
+
+  // Audio
+  { id: 'audio-convert', name: 'Audio Converter', description: 'Convert between MP3, WAV, M4A, OGG and FLAC.', category: 'audio', path: '/audio/convert', keywords: ['audio', 'convert', 'mp3', 'wav', 'm4a', 'ogg', 'flac'], processing: 'client' },
+  { id: 'audio-trim', name: 'Audio Trimmer', description: 'Cut an audio file down to a start and end time.', category: 'audio', path: '/audio/trim', keywords: ['audio', 'trim', 'cut', 'clip'], processing: 'client' },
+  { id: 'audio-compress', name: 'Audio Compressor', description: 'Reduce audio file size by changing the bitrate.', category: 'audio', path: '/audio/compress', keywords: ['audio', 'compress', 'bitrate', 'reduce'], processing: 'client' },
+  { id: 'audio-volume', name: 'Volume / Normalize', description: 'Adjust volume or auto-normalize loudness.', category: 'audio', path: '/audio/volume', keywords: ['audio', 'volume', 'normalize', 'loudness'], processing: 'client' },
 ]
 
 // Named in the spec but deliberately not built yet -- surfaced honestly in
@@ -92,11 +108,9 @@ export const TOOLS: ToolMeta[] = [
 // link. These specifically need either a real backend (screenshotting an
 // arbitrary URL, HTTP header/status checks that hit CORS from the browser)
 // or a much heavier client integration that deserves its own careful pass
-// (ffmpeg.wasm for video/audio, a real WASM LaTeX engine).
+// (a real WASM LaTeX engine).
 export const COMING_SOON: { name: string; category: ToolCategory }[] = [
   { name: 'Protect / Unlock PDF', category: 'pdf' },
-  { name: 'Video Compressor & Converter', category: 'utilities' },
-  { name: 'Audio Converter', category: 'utilities' },
   { name: 'LaTeX Workspace', category: 'developer' },
   { name: 'Background Removal', category: 'images' },
   { name: 'AI Document Tools', category: 'developer' },

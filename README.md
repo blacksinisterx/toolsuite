@@ -6,9 +6,9 @@ A free, privacy-first all-in-one utility site for files, media, documents, and d
 browser — no server, no database, no account. Close the tab and your file is gone, the way it
 should be.
 
-## What's built (Phase 1 + Phase 2 part 1)
+## What's built (Phase 1 + Phase 2)
 
-48 fully working tools, all client-side:
+58 fully working tools, all client-side:
 
 - **PDF** — Merge, Split, Extract Pages, Delete Pages, Rotate, Reorder (drag-and-drop),
   JPG/PNG → PDF, PDF → JPG, Compress, Watermark, Add Text (click-to-place), Page Numbers
@@ -23,6 +23,9 @@ should be.
 - **Data** — CSV Viewer, CSV Cleaner, CSV ⇄ Excel, JSON Tree Viewer
 - **Web** — URL Parser, UTM Builder/Cleaner, Open Graph Generator, Robots.txt Generator,
   Sitemap Generator
+- **Video** — Converter (MP4/WebM/MOV/AVI/MKV), Compressor, Trimmer, Video → GIF, Extract Audio,
+  Change Resolution (real WASM FFmpeg via ffmpeg.wasm)
+- **Audio** — Converter (MP3/WAV/M4A/OGG/FLAC), Trimmer, Compressor, Volume/Normalize
 
 Plus: global search, category browsing, light/dark theme, responsive layout, and a shared
 component architecture so new tools are cheap to add.
@@ -32,19 +35,20 @@ component architecture so new tools are cheap to add.
 Every tool above has a real, mature browser-side implementation: [`pdf-lib`](https://pdf-lib.js.org/)
 + [`pdfjs-dist`](https://mozilla.github.io/pdf.js/) for PDFs, the Canvas API for images,
 [`tesseract.js`](https://tesseract.projectnaptha.com/) (WASM) for OCR, [`jszip`](https://stuk.github.io/jszip/)
-for archives, [SheetJS](https://sheetjs.com/) for Excel, Web Crypto (`SubtleCrypto`) for hashing.
-That means the "no permanent storage" promise isn't a policy you have to trust — there's no
-upload endpoint for a file to ever reach. It's also free to host: this is a static site.
+for archives, [SheetJS](https://sheetjs.com/) for Excel, [`ffmpeg.wasm`](https://ffmpegwasm.netlify.app/)
+(a real WASM build of FFmpeg) for video/audio, Web Crypto (`SubtleCrypto`) for hashing. That means
+the "no permanent storage" promise isn't a policy you have to trust — there's no upload endpoint
+for a file to ever reach. It's also free to host: this is a static site.
 
 The one exception: OCR's language-model file (~10-15MB, English) is fetched from Tesseract's
 own public CDN the first time you use an OCR tool, cached by the browser after that. It never
 carries any of your file's content — it's a one-time download of Tesseract's own asset, same as
-any web font.
+any web font. FFmpeg's engine binary (~32MB, WASM) is self-hosted from this app's own origin
+instead, for the same reason pdf.js's worker is: it's a large asset, not a CDN dependency.
 
-Remaining Phase 2/3 items (video/audio conversion, LaTeX, AI tools, real webpage screenshotting)
-need either a genuinely heavier client integration (ffmpeg.wasm, a WASM TeX engine) or a real
-backend (screenshotting an arbitrary URL, HTTP checks that hit CORS from the browser) — see
-[Roadmap](#roadmap).
+Remaining Phase 3 items (LaTeX, AI document tools, real webpage screenshotting) need either a
+genuinely heavier client integration (a WASM TeX engine) or a real backend (screenshotting an
+arbitrary URL, HTTP checks that hit CORS from the browser) — see [Roadmap](#roadmap).
 
 ## Stack
 
@@ -73,22 +77,28 @@ src/
   pages/          # HomePage, CategoryPage
   tools/          # one file per tool, grouped by category
     pdf/  images/  developer/  text/  utilities/  analyzer/
-    ocr/  archives/  data/  web/
+    ocr/  archives/  data/  web/  video/  audio/
   processors/     # the actual file-processing logic (pdf.ts, image.ts, hash.ts, csv.ts,
-                   # ocr.ts, archive.ts, spreadsheet.ts, pdfRender.ts)
+                   # ocr.ts, archive.ts, spreadsheet.ts, pdfRender.ts, ffmpeg.ts)
   lib/            # registry (tool metadata), search, small utilities
   types/          # ToolMeta, CategoryMeta
 ```
 
 Every tool is registered once in `src/lib/registry.ts` (name, description, category, path,
 search keywords) and lazy-loaded in `src/App.tsx` — the homepage never downloads pdf-lib,
-pdfjs-dist, tesseract.js, or any other tool's dependencies until that specific tool is opened.
+pdfjs-dist, tesseract.js, ffmpeg.wasm, or any other tool's dependencies until that specific tool
+is opened.
+
+`vite.config.ts` excludes `@ffmpeg/ffmpeg`/`@ffmpeg/util` from Vite's dev-mode dependency
+pre-bundling — that package constructs its own Worker via a relative `import.meta.url`, which
+pre-bundling breaks (the worker script silently fails to load and every ffmpeg call hangs
+forever with no error). Confirmed via a real Playwright-driven browser, both in dev and against
+the production build.
 
 ## Roadmap
 
-**Phase 2, remaining**: Video/audio conversion (ffmpeg.wasm — a real, heavier client
-integration that deserves its own careful pass), LaTeX workspace (a WASM TeX engine),
-Protect/Unlock PDF (pdf-lib has no built-in encryption support), Background Removal.
+**Phase 2, remaining**: LaTeX workspace (a WASM TeX engine), Protect/Unlock PDF (pdf-lib has no
+built-in encryption support), Background Removal.
 
 **Phase 2b** (needs a real backend): Webpage screenshot / HTML to PDF, HTTP status/header
 checking — both require fetching an arbitrary third-party URL, which the browser's own CORS

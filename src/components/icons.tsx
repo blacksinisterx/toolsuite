@@ -83,6 +83,24 @@ export function WebIcon() {
   )
 }
 
+export function VideoIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" {...stroke} aria-hidden="true">
+      <rect x="2" y="5" width="14" height="14" rx="2" />
+      <path d="m16 10 6-3.5v11L16 14" />
+    </svg>
+  )
+}
+export function AudioIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" {...stroke} aria-hidden="true">
+      <path d="M9 18V5l10-2v13" />
+      <circle cx="6" cy="18" r="3" />
+      <circle cx="16" cy="16" r="3" />
+    </svg>
+  )
+}
+
 export const CATEGORY_ICONS: Record<ToolCategory, () => ReactElement> = {
   pdf: PdfIcon,
   images: ImageIcon,
@@ -94,4 +112,6 @@ export const CATEGORY_ICONS: Record<ToolCategory, () => ReactElement> = {
   archives: ArchiveIcon,
   data: DataIcon,
   web: WebIcon,
+  video: VideoIcon,
+  audio: AudioIcon,
 }

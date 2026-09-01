@@ -59,6 +59,18 @@ const CsvCleaner = lazy(() => import('./tools/data/CsvCleaner'))
 const CsvExcel = lazy(() => import('./tools/data/CsvExcel'))
 const JsonTreeViewer = lazy(() => import('./tools/data/JsonTreeViewer'))
 
+const VideoConvert = lazy(() => import('./tools/video/VideoConvert'))
+const VideoCompress = lazy(() => import('./tools/video/VideoCompress'))
+const VideoTrim = lazy(() => import('./tools/video/VideoTrim'))
+const VideoToGif = lazy(() => import('./tools/video/VideoToGif'))
+const VideoExtractAudio = lazy(() => import('./tools/video/VideoExtractAudio'))
+const VideoResize = lazy(() => import('./tools/video/VideoResize'))
+
+const AudioConvert = lazy(() => import('./tools/audio/AudioConvert'))
+const AudioTrim = lazy(() => import('./tools/audio/AudioTrim'))
+const AudioCompress = lazy(() => import('./tools/audio/AudioCompress'))
+const AudioVolume = lazy(() => import('./tools/audio/AudioVolume'))
+
 const UrlParser = lazy(() => import('./tools/web/UrlParser'))
 const UtmBuilder = lazy(() => import('./tools/web/UtmBuilder'))
 const OgGenerator = lazy(() => import('./tools/web/OgGenerator'))
@@ -135,6 +147,18 @@ export default function App() {
             <Route path="/web/og-generator" element={<OgGenerator />} />
             <Route path="/web/robots-generator" element={<RobotsGenerator />} />
             <Route path="/web/sitemap-generator" element={<SitemapGenerator />} />
+
+            <Route path="/video/convert" element={<VideoConvert />} />
+            <Route path="/video/compress" element={<VideoCompress />} />
+            <Route path="/video/trim" element={<VideoTrim />} />
+            <Route path="/video/to-gif" element={<VideoToGif />} />
+            <Route path="/video/extract-audio" element={<VideoExtractAudio />} />
+            <Route path="/video/resize" element={<VideoResize />} />
+
+            <Route path="/audio/convert" element={<AudioConvert />} />
+            <Route path="/audio/trim" element={<AudioTrim />} />
+            <Route path="/audio/compress" element={<AudioCompress />} />
+            <Route path="/audio/volume" element={<AudioVolume />} />
 
             <Route path="*" element={<NotFound />} />
           </Route>
