@@ -23,7 +23,7 @@ export function SearchBar({ size = 'md', placeholder }: { size?: 'md' | 'lg'; pl
   return (
     <div ref={containerRef} className="relative w-full">
       <div
-        className={`flex items-center gap-2.5 rounded-xl border border-border bg-bg-elevated px-4 shadow-sm focus-within:border-accent ${
+        className={`flex items-center gap-2.5 rounded-xl border border-border-strong bg-bg-elevated px-4 shadow-md focus-within:border-accent ${
           size === 'lg' ? 'py-3.5' : 'py-2.5'
         }`}
       >
@@ -55,7 +55,7 @@ export function SearchBar({ size = 'md', placeholder }: { size?: 'md' | 'lg'; pl
               go(results[active].path)
             }
           }}
-          className={`w-full bg-transparent text-text outline-none placeholder:text-text-faint ${size === 'lg' ? 'text-base' : 'text-sm'}`}
+          className={`w-full bg-transparent text-text outline-none placeholder:text-text-muted ${size === 'lg' ? 'text-base' : 'text-sm'}`}
           aria-label="Search tools"
           aria-expanded={open && results.length > 0}
           role="combobox"

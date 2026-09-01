@@ -52,7 +52,7 @@ export default function HomePage() {
             {EXAMPLES.map((ex) => (
               <span
                 key={ex}
-                className="rounded-full border border-border px-3 py-1 text-xs text-text-faint transition-colors hover:border-accent hover:text-accent"
+                className="rounded-full border border-border-strong bg-bg-elevated px-3 py-1 text-xs text-text-muted shadow-sm transition-colors hover:border-accent hover:text-accent"
               >
                 {ex}
               </span>
@@ -132,23 +132,24 @@ function Dot({ color }: { color: string }) {
   return <span className="h-1.5 w-1.5 rounded-full" style={{ background: color }} />
 }
 
-/** Purely decorative, ambient background for the hero -- two large, soft,
- * blurred color fields that drift very slowly. Kept behind everything at
- * low opacity so it reads as atmosphere, not motion competing for
- * attention; automatically stilled by prefers-reduced-motion. */
+/** Purely decorative, ambient background for the hero. First pass put both
+ * blobs close enough that their overlap muddied into a brownish smear right
+ * behind the headline, and killed contrast on the search bar sitting on top
+ * of it -- pushed them out to the true far corners instead, so the center
+ * of the hero (where the text and search bar actually are) stays clean. */
 function AuroraBackground() {
   return (
     <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
       <motion.div
-        className="absolute -top-24 left-1/4 h-72 w-72 rounded-full opacity-30 blur-3xl"
+        className="absolute -top-32 -left-24 h-80 w-80 rounded-full opacity-20 blur-[100px]"
         style={{ background: 'var(--accent)' }}
-        animate={{ x: [0, 30, 0], y: [0, 20, 0] }}
+        animate={{ x: [0, 20, 0], y: [0, 15, 0] }}
         transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
       />
       <motion.div
-        className="absolute -top-16 right-1/4 h-72 w-72 rounded-full opacity-25 blur-3xl"
+        className="absolute -top-32 -right-24 h-80 w-80 rounded-full opacity-20 blur-[100px]"
         style={{ background: 'var(--accent2)' }}
-        animate={{ x: [0, -25, 0], y: [0, 25, 0] }}
+        animate={{ x: [0, -20, 0], y: [0, 15, 0] }}
         transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
       />
     </div>

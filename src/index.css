@@ -50,10 +50,10 @@
 :root:not([data-theme='light']) {
   @media (prefers-color-scheme: dark) {
     --bg: #120f19;
-    --bg-elevated: #1b1726;
+    --bg-elevated: #241e35;
     --bg-sunken: #0b0912;
-    --border: #322b42;
-    --border-strong: #453b5c;
+    --border: #3d3552;
+    --border-strong: #554a70;
     --text: #f3eefb;
     --text-muted: #b3a6c9;
     --text-faint: #766a90;
