@@ -17,6 +17,8 @@ const JpgToPdf = lazy(() => import('./tools/pdf/JpgToPdf'))
 const PdfToJpg = lazy(() => import('./tools/pdf/PdfToJpg'))
 const CompressPdf = lazy(() => import('./tools/pdf/CompressPdf'))
 const WatermarkPdf = lazy(() => import('./tools/pdf/WatermarkPdf'))
+const AddTextToPdf = lazy(() => import('./tools/pdf/AddTextToPdf'))
+const PageNumbers = lazy(() => import('./tools/pdf/PageNumbers'))
 
 const ImageConvert = lazy(() => import('./tools/images/ImageConvert'))
 const ImageResize = lazy(() => import('./tools/images/ImageResize'))
@@ -46,6 +48,23 @@ const Calculator = lazy(() => import('./tools/utilities/Calculator'))
 
 const FileAnalyzer = lazy(() => import('./tools/analyzer/FileAnalyzer'))
 
+const ImageToText = lazy(() => import('./tools/ocr/ImageToText'))
+const PdfToTextOcr = lazy(() => import('./tools/ocr/PdfToTextOcr'))
+
+const CreateZip = lazy(() => import('./tools/archives/CreateZip'))
+const ExtractZip = lazy(() => import('./tools/archives/ExtractZip'))
+
+const CsvViewer = lazy(() => import('./tools/data/CsvViewer'))
+const CsvCleaner = lazy(() => import('./tools/data/CsvCleaner'))
+const CsvExcel = lazy(() => import('./tools/data/CsvExcel'))
+const JsonTreeViewer = lazy(() => import('./tools/data/JsonTreeViewer'))
+
+const UrlParser = lazy(() => import('./tools/web/UrlParser'))
+const UtmBuilder = lazy(() => import('./tools/web/UtmBuilder'))
+const OgGenerator = lazy(() => import('./tools/web/OgGenerator'))
+const RobotsGenerator = lazy(() => import('./tools/web/RobotsGenerator'))
+const SitemapGenerator = lazy(() => import('./tools/web/SitemapGenerator'))
+
 function Loading() {
   return <div className="px-6 py-20 text-center text-sm text-text-faint">Loading tool…</div>
 }
@@ -69,6 +88,8 @@ export default function App() {
             <Route path="/pdf/pdf-to-jpg" element={<PdfToJpg />} />
             <Route path="/pdf/compress" element={<CompressPdf />} />
             <Route path="/pdf/watermark" element={<WatermarkPdf />} />
+            <Route path="/pdf/add-text" element={<AddTextToPdf />} />
+            <Route path="/pdf/page-numbers" element={<PageNumbers />} />
 
             <Route path="/image/convert" element={<ImageConvert />} />
             <Route path="/image/resize" element={<ImageResize />} />
@@ -97,6 +118,23 @@ export default function App() {
             <Route path="/utilities/calculator" element={<Calculator />} />
 
             <Route path="/analyzer" element={<FileAnalyzer />} />
+
+            <Route path="/ocr/image-to-text" element={<ImageToText />} />
+            <Route path="/ocr/pdf-to-text" element={<PdfToTextOcr />} />
+
+            <Route path="/archives/create-zip" element={<CreateZip />} />
+            <Route path="/archives/extract-zip" element={<ExtractZip />} />
+
+            <Route path="/data/csv-viewer" element={<CsvViewer />} />
+            <Route path="/data/csv-cleaner" element={<CsvCleaner />} />
+            <Route path="/data/csv-excel" element={<CsvExcel />} />
+            <Route path="/data/json-tree-viewer" element={<JsonTreeViewer />} />
+
+            <Route path="/web/url-parser" element={<UrlParser />} />
+            <Route path="/web/utm-builder" element={<UtmBuilder />} />
+            <Route path="/web/og-generator" element={<OgGenerator />} />
+            <Route path="/web/robots-generator" element={<RobotsGenerator />} />
+            <Route path="/web/sitemap-generator" element={<SitemapGenerator />} />
 
             <Route path="*" element={<NotFound />} />
           </Route>

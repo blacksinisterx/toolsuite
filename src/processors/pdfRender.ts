@@ -23,8 +23,10 @@ async function renderPageToCanvas(pdf: pdfjsLib.PDFDocumentProxy, pageNum: numbe
   const canvas = document.createElement('canvas')
   canvas.width = viewport.width
   canvas.height = viewport.height
-  const ctx = canvas.getContext('2d')!
-  await page.render({ canvas, canvasContext: ctx, viewport }).promise
+  // `canvas` alone -- pdfjs-dist's own docs say `canvas` and `canvasContext`
+  // are mutually exclusive ("if canvasContext must be used, canvas must be
+  // null"); `canvas` is the modern, preferred parameter.
+  await page.render({ canvas, viewport }).promise
   return canvas
 }
 

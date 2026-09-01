@@ -50,6 +50,38 @@ export function AnalyzerIcon() {
     </svg>
   )
 }
+export function OcrIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" {...stroke} aria-hidden="true">
+      <path d="M4 8V5a1 1 0 0 1 1-1h3M20 8V5a1 1 0 0 0-1-1h-3M4 16v3a1 1 0 0 0 1 1h3m12-4v3a1 1 0 0 1-1 1h-3" />
+      <path d="M8 12h8" />
+    </svg>
+  )
+}
+export function ArchiveIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" {...stroke} aria-hidden="true">
+      <rect x="3" y="4" width="18" height="5" rx="1" />
+      <path d="M5 9v9a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V9M10 13h4" />
+    </svg>
+  )
+}
+export function DataIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" {...stroke} aria-hidden="true">
+      <ellipse cx="12" cy="5" rx="8" ry="3" />
+      <path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3" />
+    </svg>
+  )
+}
+export function WebIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" {...stroke} aria-hidden="true">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M3 12h18M12 3c2.5 2.5 4 6 4 9s-1.5 6.5-4 9c-2.5-2.5-4-6-4-9s1.5-6.5 4-9Z" />
+    </svg>
+  )
+}
 
 export const CATEGORY_ICONS: Record<ToolCategory, () => ReactElement> = {
   pdf: PdfIcon,
@@ -58,4 +90,8 @@ export const CATEGORY_ICONS: Record<ToolCategory, () => ReactElement> = {
   text: TextIcon,
   utilities: UtilityIcon,
   analyzer: AnalyzerIcon,
+  ocr: OcrIcon,
+  archives: ArchiveIcon,
+  data: DataIcon,
+  web: WebIcon,
 }

@@ -7,6 +7,10 @@ export const CATEGORIES: CategoryMeta[] = [
   { id: 'text', label: 'Text', description: 'Word counting, diffing and markdown editing' },
   { id: 'utilities', label: 'Utilities', description: 'QR codes, colors, passwords and quick calculators' },
   { id: 'analyzer', label: 'File Analyzer', description: 'Inspect any file before you use it' },
+  { id: 'ocr', label: 'OCR', description: 'Pull real text out of images and scanned PDFs' },
+  { id: 'archives', label: 'Archives', description: 'Create and extract ZIP files' },
+  { id: 'data', label: 'Data', description: 'View, clean and convert CSV and JSON' },
+  { id: 'web', label: 'Web', description: 'URL, sitemap and meta-tag tools for site owners' },
 ]
 
 // Every tool here is fully working and 100% client-side (Phase 1 scope).
@@ -25,6 +29,8 @@ export const TOOLS: ToolMeta[] = [
   { id: 'pdf-to-jpg', name: 'PDF to JPG', description: 'Export every page of a PDF as a JPG image.', category: 'pdf', path: '/pdf/pdf-to-jpg', keywords: ['pdf', 'to', 'jpg', 'image', 'convert'], processing: 'client' },
   { id: 'compress-pdf', name: 'Compress PDF', description: 'Shrink a PDF by re-encoding its embedded images.', category: 'pdf', path: '/pdf/compress', keywords: ['compress', 'shrink', 'reduce', 'pdf'], processing: 'client' },
   { id: 'watermark-pdf', name: 'Add Watermark', description: 'Stamp text across every page of a PDF.', category: 'pdf', path: '/pdf/watermark', keywords: ['watermark', 'stamp', 'pdf'], processing: 'client' },
+  { id: 'pdf-add-text', name: 'Add Text to PDF', description: 'Click anywhere on a page to place custom text.', category: 'pdf', path: '/pdf/add-text', keywords: ['add', 'text', 'edit', 'pdf'], processing: 'client' },
+  { id: 'pdf-page-numbers', name: 'Page Numbers', description: 'Add page numbers in any position and format.', category: 'pdf', path: '/pdf/page-numbers', keywords: ['page', 'numbers', 'pdf'], processing: 'client' },
 
   // Images
   { id: 'image-convert', name: 'Image Converter', description: 'Convert between JPG, PNG and WebP.', category: 'images', path: '/image/convert', keywords: ['convert', 'jpg', 'png', 'webp', 'image', 'format'], processing: 'client' },
@@ -58,20 +64,44 @@ export const TOOLS: ToolMeta[] = [
 
   // Analyzer
   { id: 'file-analyzer', name: 'File Analyzer', description: 'Drop any file to see its type, size and hash.', category: 'analyzer', path: '/analyzer', keywords: ['file', 'analyze', 'inspect', 'hash', 'metadata', 'info'], processing: 'client' },
+
+  // OCR
+  { id: 'image-to-text', name: 'Image to Text (OCR)', description: 'Pull text out of a photo, screenshot or scan.', category: 'ocr', path: '/ocr/image-to-text', keywords: ['ocr', 'image', 'text', 'extract', 'scan'], processing: 'client' },
+  { id: 'pdf-to-text-ocr', name: 'PDF to Text (OCR)', description: 'Extract text from a scanned or image-based PDF.', category: 'ocr', path: '/ocr/pdf-to-text', keywords: ['ocr', 'pdf', 'text', 'extract', 'scan'], processing: 'client' },
+
+  // Archives
+  { id: 'create-zip', name: 'Create ZIP', description: 'Bundle multiple files into one ZIP archive.', category: 'archives', path: '/archives/create-zip', keywords: ['zip', 'archive', 'compress', 'create'], processing: 'client' },
+  { id: 'extract-zip', name: 'Extract ZIP', description: 'Unpack a ZIP archive and download the files inside.', category: 'archives', path: '/archives/extract-zip', keywords: ['zip', 'archive', 'extract', 'unzip'], processing: 'client' },
+
+  // Data
+  { id: 'csv-viewer', name: 'CSV Viewer', description: 'View, sort and filter a CSV file as a table.', category: 'data', path: '/data/csv-viewer', keywords: ['csv', 'viewer', 'table', 'sort', 'filter'], processing: 'client' },
+  { id: 'csv-cleaner', name: 'CSV Cleaner', description: 'Remove duplicate rows, trim whitespace, drop empty rows.', category: 'data', path: '/data/csv-cleaner', keywords: ['csv', 'clean', 'duplicate', 'trim'], processing: 'client' },
+  { id: 'csv-excel', name: 'CSV ⇄ Excel', description: 'Convert between CSV and Excel (.xlsx).', category: 'data', path: '/data/csv-excel', keywords: ['csv', 'excel', 'xlsx', 'convert', 'spreadsheet'], processing: 'client' },
+  { id: 'json-tree-viewer', name: 'JSON Tree Viewer', description: 'Browse JSON as a collapsible tree.', category: 'data', path: '/data/json-tree-viewer', keywords: ['json', 'tree', 'viewer', 'explorer'], processing: 'client' },
+
+  // Web
+  { id: 'url-parser', name: 'URL Parser', description: 'Break a URL down into its parts and query params.', category: 'web', path: '/web/url-parser', keywords: ['url', 'parser', 'query', 'params'], processing: 'client' },
+  { id: 'utm-builder', name: 'UTM Builder', description: 'Build or strip UTM tracking parameters on a link.', category: 'web', path: '/web/utm-builder', keywords: ['utm', 'builder', 'campaign', 'tracking', 'cleaner'], processing: 'client' },
+  { id: 'og-generator', name: 'Open Graph Generator', description: 'Generate Open Graph and Twitter Card meta tags.', category: 'web', path: '/web/og-generator', keywords: ['open graph', 'og', 'meta', 'twitter card'], processing: 'client' },
+  { id: 'robots-generator', name: 'Robots.txt Generator', description: 'Build a robots.txt with rules per user-agent.', category: 'web', path: '/web/robots-generator', keywords: ['robots.txt', 'crawler', 'generator'], processing: 'client' },
+  { id: 'sitemap-generator', name: 'Sitemap Generator', description: 'Turn a list of URLs into a sitemap.xml.', category: 'web', path: '/web/sitemap-generator', keywords: ['sitemap', 'xml', 'seo', 'generator'], processing: 'client' },
 ]
 
-// Named in the spec but deliberately not built this phase -- surfaced
-// honestly in search/category pages as "coming later" rather than as a
-// broken or fake link.
+// Named in the spec but deliberately not built yet -- surfaced honestly in
+// search/category pages as "coming later" rather than as a broken or fake
+// link. These specifically need either a real backend (screenshotting an
+// arbitrary URL, HTTP header/status checks that hit CORS from the browser)
+// or a much heavier client integration that deserves its own careful pass
+// (ffmpeg.wasm for video/audio, a real WASM LaTeX engine).
 export const COMING_SOON: { name: string; category: ToolCategory }[] = [
-  { name: 'OCR (Image/PDF to Text)', category: 'pdf' },
   { name: 'Protect / Unlock PDF', category: 'pdf' },
-  { name: 'Video Compressor', category: 'utilities' },
+  { name: 'Video Compressor & Converter', category: 'utilities' },
   { name: 'Audio Converter', category: 'utilities' },
   { name: 'LaTeX Workspace', category: 'developer' },
   { name: 'Background Removal', category: 'images' },
-  { name: 'Archive (ZIP) Tools', category: 'utilities' },
   { name: 'AI Document Tools', category: 'developer' },
+  { name: 'Webpage Screenshot / HTML to PDF', category: 'web' },
+  { name: 'HTTP Status & Header Checker', category: 'web' },
 ]
 
 export function toolsByCategory(category: string): ToolMeta[] {

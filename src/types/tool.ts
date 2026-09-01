@@ -5,6 +5,10 @@ export type ToolCategory =
   | 'text'
   | 'utilities'
   | 'analyzer'
+  | 'ocr'
+  | 'archives'
+  | 'data'
+  | 'web'
 
 export interface ToolMeta {
   id: string

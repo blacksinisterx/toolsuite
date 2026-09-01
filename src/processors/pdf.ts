@@ -131,3 +131,47 @@ export async function watermarkPdf(file: File, text: string, opacity: number): P
   const bytes = await doc.save()
   return pdfBlob(bytes)
 }
+
+/** xFrac/yFrac are 0..1 fractions of the page, measured from the TOP-LEFT
+ * (matching how a thumbnail image is clicked) -- converted here to PDF's
+ * own bottom-left-origin point space. */
+export async function addTextToPdf(
+  file: File,
+  pageIndex: number,
+  xFrac: number,
+  yFrac: number,
+  text: string,
+  size: number,
+  colorHex: string,
+): Promise<Blob> {
+  const doc = await loadPdf(file)
+  const page = doc.getPage(pageIndex)
+  const { width, height } = page.getSize()
+  const font = await doc.embedFont(StandardFonts.Helvetica)
+  const r = parseInt(colorHex.slice(1, 3), 16) / 255
+  const g = parseInt(colorHex.slice(3, 5), 16) / 255
+  const b = parseInt(colorHex.slice(5, 7), 16) / 255
+  page.drawText(text, { x: xFrac * width, y: height - yFrac * height, size, font, color: rgb(r, g, b) })
+  const bytes = await doc.save()
+  return pdfBlob(bytes)
+}
+
+export type NumberPosition = 'bottom-center' | 'bottom-right' | 'bottom-left' | 'top-center' | 'top-right' | 'top-left'
+
+export async function addPageNumbers(file: File, position: NumberPosition, format: string, startAt: number): Promise<Blob> {
+  const doc = await loadPdf(file)
+  const font = await doc.embedFont(StandardFonts.Helvetica)
+  const size = 10
+  const margin = 24
+  const pages = doc.getPages()
+  pages.forEach((page, i) => {
+    const { width, height } = page.getSize()
+    const text = format.replace('{n}', String(i + startAt)).replace('{total}', String(pages.length))
+    const textWidth = font.widthOfTextAtSize(text, size)
+    const x = position.endsWith('center') ? width / 2 - textWidth / 2 : position.endsWith('right') ? width - margin - textWidth : margin
+    const y = position.startsWith('top') ? height - margin : margin - size / 2
+    page.drawText(text, { x, y, size, font, color: rgb(0.3, 0.3, 0.3) })
+  })
+  const bytes = await doc.save()
+  return pdfBlob(bytes)
+}
