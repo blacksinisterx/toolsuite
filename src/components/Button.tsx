@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes } from 'react'
+import { motion, type HTMLMotionProps } from 'motion/react'
 
 type Variant = 'primary' | 'secondary' | 'ghost' | 'danger'
 
@@ -15,7 +15,17 @@ const variants: Record<Variant, string> = {
 export function Button({
   variant = 'primary',
   className = '',
+  disabled,
   ...props
-}: ButtonHTMLAttributes<HTMLButtonElement> & { variant?: Variant }) {
-  return <button className={`${base} ${variants[variant]} ${className}`} {...props} />
+}: HTMLMotionProps<'button'> & { variant?: Variant }) {
+  return (
+    <motion.button
+      className={`${base} ${variants[variant]} ${className}`}
+      disabled={disabled}
+      whileHover={disabled ? undefined : { y: -1 }}
+      whileTap={disabled ? undefined : { scale: 0.96 }}
+      transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+      {...props}
+    />
+  )
 }

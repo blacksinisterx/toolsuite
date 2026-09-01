@@ -1,4 +1,5 @@
 import { useCallback, useId, useRef, useState } from 'react'
+import { motion } from 'motion/react'
 
 export function DropZone({
   accept,
@@ -44,10 +45,19 @@ export function DropZone({
         dragging ? 'border-accent bg-accent-soft' : 'border-border-strong bg-bg-sunken hover:border-accent'
       }`}
     >
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" className="text-text-faint" aria-hidden="true">
+      <motion.svg
+        width="32"
+        height="32"
+        viewBox="0 0 24 24"
+        fill="none"
+        className={dragging ? 'text-accent' : 'text-text-faint'}
+        aria-hidden="true"
+        animate={{ y: dragging ? -3 : 0 }}
+        transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+      >
         <path d="M12 15V3m0 0 4 4m-4-4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
         <path d="M20 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
+      </motion.svg>
       <p id={id} className="text-sm font-medium text-text">
         Drop {multiple ? 'files' : 'a file'} here, or click to browse
       </p>

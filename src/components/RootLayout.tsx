@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, Outlet, useLocation } from 'react-router-dom'
+import { motion } from 'motion/react'
 import { Sidebar } from './Sidebar'
 import { SearchBar } from './SearchBar'
 import { ThemeToggle } from './ThemeToggle'
@@ -31,12 +32,15 @@ export function RootLayout() {
         </button>
 
         <Link to="/" className="flex shrink-0 items-center gap-2 text-text">
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-accent-text">
+          <span
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-accent-text"
+            style={{ background: 'linear-gradient(135deg, var(--accent), var(--accent2))' }}
+          >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M12 2 4 5v6c0 5 3.4 8.7 8 10 4.6-1.3 8-5 8-10V5l-8-3Z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
             </svg>
           </span>
-          <span className="text-sm font-semibold tracking-tight sm:text-base">Toolbox</span>
+          <span className="font-display text-sm font-semibold tracking-tight sm:text-base">Toolbox</span>
         </Link>
 
         {!isHome && (
@@ -73,7 +77,14 @@ export function RootLayout() {
         )}
 
         <main className="min-w-0 flex-1">
-          <Outlet />
+          <motion.div
+            key={location.pathname}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <Outlet />
+          </motion.div>
         </main>
       </div>
 
