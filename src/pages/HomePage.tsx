@@ -18,7 +18,7 @@ export default function HomePage() {
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-16 px-4 py-14 sm:px-6">
       <section className="relative flex flex-col items-center gap-6 overflow-hidden text-center">
-        <AuroraBackground />
+        <DotGridBackground />
 
         <motion.h1
           initial="hidden"
@@ -132,26 +132,26 @@ function Dot({ color }: { color: string }) {
   return <span className="h-1.5 w-1.5 rounded-full" style={{ background: color }} />
 }
 
-/** Purely decorative, ambient background for the hero. First pass put both
- * blobs close enough that their overlap muddied into a brownish smear right
- * behind the headline, and killed contrast on the search bar sitting on top
- * of it -- pushed them out to the true far corners instead, so the center
- * of the hero (where the text and search bar actually are) stays clean. */
-function AuroraBackground() {
+/** Third pass on the hero background. The soft blurred gradient blob (two
+ * versions of it) kept reading as generic "AI SaaS landing page" regardless
+ * of color tuning -- that's the pattern itself, not a contrast problem.
+ * Dropped it for a fine engineering-grid dot pattern instead: a real
+ * texture used by actual developer-tool sites (Vercel, Stripe docs, Linear)
+ * for exactly this reason, faded out toward the edges with a mask so it
+ * reads as texture, not a decoration competing with the headline. No
+ * color, no blur, no gradient -- the accent color still only shows up in
+ * the "Everything" text and the tool cards below. */
+function DotGridBackground() {
   return (
-    <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
-      <motion.div
-        className="absolute -top-32 -left-24 h-80 w-80 rounded-full opacity-20 blur-[100px]"
-        style={{ background: 'var(--accent)' }}
-        animate={{ x: [0, 20, 0], y: [0, 15, 0] }}
-        transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      <motion.div
-        className="absolute -top-32 -right-24 h-80 w-80 rounded-full opacity-20 blur-[100px]"
-        style={{ background: 'var(--accent2)' }}
-        animate={{ x: [0, -20, 0], y: [0, 15, 0] }}
-        transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
-      />
-    </div>
+    <div
+      className="pointer-events-none absolute inset-0 -z-10"
+      aria-hidden="true"
+      style={{
+        backgroundImage: 'radial-gradient(var(--border-strong) 1px, transparent 1px)',
+        backgroundSize: '24px 24px',
+        maskImage: 'radial-gradient(ellipse 70% 60% at 50% 20%, black 40%, transparent 100%)',
+        WebkitMaskImage: 'radial-gradient(ellipse 70% 60% at 50% 20%, black 40%, transparent 100%)',
+      }}
+    />
   )
 }
