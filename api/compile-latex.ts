@@ -26,27 +26,35 @@ const MAX_SOURCE_BYTES = 2_000_000 // 2MB of LaTeX source is already a huge docu
 // all, so XeTeX can't discover any font, system or otherwise. Separately,
 // even a working fontconfig could never legitimately serve "Times New
 // Roman" itself -- it's a proprietary Microsoft font, not redistributable.
-// Real fix: bundle genuinely free, metric-compatible substitutes (Google's
-// own official replacements -- Tinos/Arimo/Cousine/Carlito/Caladea, all
-// OFL-licensed) and a real fontconfig config that transparently aliases
-// the proprietary names to them, so a resume written against "Times New
-// Roman" compiles unmodified.
+//
+// First fix attempt used query-time `<match target="pattern">` family
+// aliasing -- confirmed live this wasn't enough: fontconfig picked up the
+// directory (the "cannot load config" error was gone) but still reported
+// "Times New Roman cannot be found". Real, more direct fix: `target="scan"`
+// rewrites a font's own registered family name at the moment fontconfig
+// indexes the file, matched by its exact path -- so each substitute file
+// registers itself in the font database *as* "Times New Roman" (etc.)
+// directly, rather than relying on pattern-matching magic at query time.
 function fontConfigXml(cacheDir: string): string {
-  const alias = (proprietary: string, substitute: string) =>
-    `  <match target="pattern">
-    <test name="family"><string>${proprietary}</string></test>
-    <edit name="family" mode="assign" binding="strong"><string>${substitute}</string></edit>
+  const registerAs = (file: string, family: string) =>
+    `  <match target="scan">
+    <test name="file"><string>${join(FONTS_DIR, file)}</string></test>
+    <edit name="family" mode="assign"><string>${family}</string></edit>
   </match>`
   return `<?xml version="1.0"?>
 <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
 <fontconfig>
   <dir>${FONTS_DIR}</dir>
   <cachedir>${cacheDir}</cachedir>
-${alias('Times New Roman', 'Tinos')}
-${alias('Arial', 'Arimo')}
-${alias('Courier New', 'Cousine')}
-${alias('Calibri', 'Carlito')}
-${alias('Cambria', 'Caladea')}
+${registerAs('Tinos-Regular.ttf', 'Times New Roman')}
+${registerAs('Tinos-Bold.ttf', 'Times New Roman')}
+${registerAs('Tinos-Italic.ttf', 'Times New Roman')}
+${registerAs('Tinos-BoldItalic.ttf', 'Times New Roman')}
+${registerAs('Arimo-Regular.ttf', 'Arial')}
+${registerAs('Cousine-Regular.ttf', 'Courier New')}
+${registerAs('Carlito-Regular.ttf', 'Calibri')}
+${registerAs('Carlito-Bold.ttf', 'Calibri')}
+${registerAs('Caladea-Regular.ttf', 'Cambria')}
 </fontconfig>
 `
 }
