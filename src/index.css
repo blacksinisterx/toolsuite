@@ -47,58 +47,66 @@
   color-scheme: light;
 }
 
+/* Dark mode, real fix (2nd pass): the first dark palette tinted every
+   neutral toward violet (bg/border/text-muted all carried a purple cast),
+   so the accent colors never actually popped -- everything, accents
+   included, blended into one muddy same-hue wash. Real premium dark UIs
+   (Linear, Vercel, GitHub) keep neutrals genuinely neutral and let color
+   live only in accents. Switched to a true near-black graphite scale;
+   coral/violet now read as deliberate accents against it instead of one
+   more shade of the same purple-black. */
 :root:not([data-theme='light']) {
   @media (prefers-color-scheme: dark) {
-    --bg: #120f19;
-    --bg-elevated: #241e35;
-    --bg-sunken: #0b0912;
-    --border: #3d3552;
-    --border-strong: #554a70;
-    --text: #f3eefb;
-    --text-muted: #b3a6c9;
-    --text-faint: #766a90;
+    --bg: #0a0a0c;
+    --bg-elevated: #17171b;
+    --bg-sunken: #050506;
+    --border: #29292f;
+    --border-strong: #3d3d45;
+    --text: #f5f5f7;
+    --text-muted: #a3a3ab;
+    --text-faint: #6b6b73;
     --accent: #ff6b4d;
     --accent-hover: #ff8266;
-    --accent-soft: #3a1f1a;
+    --accent-soft: #33201a;
     --accent-text: #1a0d08;
     --accent2: #9b83ff;
-    --accent2-soft: #251f42;
+    --accent2-soft: #221e38;
     --success: #34c77a;
     --success-soft: #14301f;
     --warning: #e2a53e;
     --warning-soft: #372a11;
     --danger: #f0685a;
     --danger-soft: #3a1613;
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
-    --shadow-md: 0 8px 28px rgba(0, 0, 0, 0.45);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 8px 28px rgba(0, 0, 0, 0.55);
     --shadow-glow: 0 8px 28px rgba(255, 107, 77, 0.22);
     color-scheme: dark;
   }
 }
 
 :root[data-theme='dark'] {
-  --bg: #120f19;
-  --bg-elevated: #1b1726;
-  --bg-sunken: #0b0912;
-  --border: #322b42;
-  --border-strong: #453b5c;
-  --text: #f3eefb;
-  --text-muted: #b3a6c9;
-  --text-faint: #766a90;
+  --bg: #0a0a0c;
+  --bg-elevated: #17171b;
+  --bg-sunken: #050506;
+  --border: #29292f;
+  --border-strong: #3d3d45;
+  --text: #f5f5f7;
+  --text-muted: #a3a3ab;
+  --text-faint: #6b6b73;
   --accent: #ff6b4d;
   --accent-hover: #ff8266;
-  --accent-soft: #3a1f1a;
+  --accent-soft: #33201a;
   --accent-text: #1a0d08;
   --accent2: #9b83ff;
-  --accent2-soft: #251f42;
+  --accent2-soft: #221e38;
   --success: #34c77a;
   --success-soft: #14301f;
   --warning: #e2a53e;
   --warning-soft: #372a11;
   --danger: #f0685a;
   --danger-soft: #3a1613;
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
-  --shadow-md: 0 8px 28px rgba(0, 0, 0, 0.45);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 28px rgba(0, 0, 0, 0.55);
   --shadow-glow: 0 8px 28px rgba(255, 107, 77, 0.22);
   color-scheme: dark;
 }
