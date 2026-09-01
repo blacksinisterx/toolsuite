@@ -15,10 +15,12 @@ export default function LatexWorkspace() {
   const [busy, setBusy] = useState(false)
   const [pdfUrl, setPdfUrl] = useState('')
   const [log, setLog] = useState<string | null>(null)
+  const [fontNote, setFontNote] = useState<string[] | null>(null)
 
   async function compile() {
     setBusy(true)
     setLog(null)
+    setFontNote(null)
     try {
       const result = await compileLatex(source)
       if (result.ok && result.pdfBlob) {
@@ -26,6 +28,7 @@ export default function LatexWorkspace() {
           if (prev) URL.revokeObjectURL(prev)
           return URL.createObjectURL(result.pdfBlob!)
         })
+        if (result.fontSubstitutions) setFontNote(result.fontSubstitutions)
       } else {
         setLog(result.log ?? 'Compilation failed.')
       }
@@ -69,6 +72,14 @@ export default function LatexWorkspace() {
           )}
         </div>
       </div>
+
+      {fontNote && (
+        <p className="rounded-lg border border-warning/30 bg-warning-soft px-3 py-2 text-xs text-warning">
+          Proprietary fonts can't be bundled (licensing), so they were swapped for free,
+          metric-compatible equivalents that keep the same spacing and line breaks:{' '}
+          {fontNote.join(', ')}.
+        </p>
+      )}
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div>

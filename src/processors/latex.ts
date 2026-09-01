@@ -2,6 +2,7 @@ export interface CompileResult {
   ok: boolean
   pdfBlob?: Blob
   log?: string
+  fontSubstitutions?: string[]
 }
 
 /** The one call in this whole app that leaves the browser -- LaTeX
@@ -17,7 +18,8 @@ export async function compileLatex(source: string): Promise<CompileResult> {
   })
 
   if (res.ok) {
-    return { ok: true, pdfBlob: await res.blob() }
+    const header = res.headers.get('X-Font-Substitutions')
+    return { ok: true, pdfBlob: await res.blob(), fontSubstitutions: header ? header.split('; ') : undefined }
   }
 
   let log = `Server returned ${res.status}.`
