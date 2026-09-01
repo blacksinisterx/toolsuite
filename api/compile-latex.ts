@@ -16,7 +16,40 @@ const execFileAsync = promisify(execFile)
 // it's written to an ephemeral /tmp directory, compiled, and deleted --
 // nothing is retained between requests.
 const TECTONIC_BIN = join(process.cwd(), 'api', 'bin', 'tectonic')
+const FONTS_DIR = join(process.cwd(), 'api', 'fonts')
 const MAX_SOURCE_BYTES = 2_000_000 // 2MB of LaTeX source is already a huge document
+
+// Real bug found from real use: documents using `fontspec` + `\setmainfont`
+// (very common in resume templates, which usually ask for Times New
+// Roman/Arial/Calibri) failed with "Fontconfig error: Cannot load default
+// config file" -- this serverless environment ships no fontconfig setup at
+// all, so XeTeX can't discover any font, system or otherwise. Separately,
+// even a working fontconfig could never legitimately serve "Times New
+// Roman" itself -- it's a proprietary Microsoft font, not redistributable.
+// Real fix: bundle genuinely free, metric-compatible substitutes (Google's
+// own official replacements -- Tinos/Arimo/Cousine/Carlito/Caladea, all
+// OFL-licensed) and a real fontconfig config that transparently aliases
+// the proprietary names to them, so a resume written against "Times New
+// Roman" compiles unmodified.
+function fontConfigXml(cacheDir: string): string {
+  const alias = (proprietary: string, substitute: string) =>
+    `  <match target="pattern">
+    <test name="family"><string>${proprietary}</string></test>
+    <edit name="family" mode="assign" binding="strong"><string>${substitute}</string></edit>
+  </match>`
+  return `<?xml version="1.0"?>
+<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+<fontconfig>
+  <dir>${FONTS_DIR}</dir>
+  <cachedir>${cacheDir}</cachedir>
+${alias('Times New Roman', 'Tinos')}
+${alias('Arial', 'Arimo')}
+${alias('Courier New', 'Cousine')}
+${alias('Calibri', 'Carlito')}
+${alias('Cambria', 'Caladea')}
+</fontconfig>
+`
+}
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
@@ -36,20 +69,27 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const workDir = await mkdtemp(join(tmpdir(), 'tex-'))
   const cacheDir = await mkdtemp(join(tmpdir(), 'tex-cache-'))
+  const fontCacheDir = await mkdtemp(join(tmpdir(), 'font-cache-'))
   const texPath = join(workDir, 'main.tex')
   const pdfPath = join(workDir, 'main.pdf')
+  const fontConfPath = join(workDir, 'fonts.conf')
 
   try {
     await writeFile(texPath, source, 'utf8')
+    await writeFile(fontConfPath, fontConfigXml(fontCacheDir), 'utf8')
 
     await execFileAsync(
       TECTONIC_BIN,
       ['--outdir', workDir, '--keep-logs', texPath],
       {
         cwd: workDir,
-        // Tectonic needs a writable cache for its TeX package bundle --
-        // the function's own filesystem is read-only outside /tmp.
-        env: { ...process.env, TECTONIC_CACHE_DIR: cacheDir },
+        env: {
+          ...process.env,
+          // Tectonic needs a writable cache for its TeX package bundle --
+          // the function's own filesystem is read-only outside /tmp.
+          TECTONIC_CACHE_DIR: cacheDir,
+          FONTCONFIG_FILE: fontConfPath,
+        },
         timeout: 55_000,
         maxBuffer: 10_000_000,
       },
@@ -68,5 +108,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   } finally {
     await rm(workDir, { recursive: true, force: true }).catch(() => {})
     await rm(cacheDir, { recursive: true, force: true }).catch(() => {})
+    await rm(fontCacheDir, { recursive: true, force: true }).catch(() => {})
   }
 }
