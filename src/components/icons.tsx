@@ -101,6 +101,15 @@ export function AudioIcon() {
   )
 }
 
+export function LatexIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" {...stroke} aria-hidden="true">
+      <path d="M4 6h9M4 6l4-3M4 6l4 3" />
+      <path d="M13 18h7M17 6l3 6-3 6" />
+    </svg>
+  )
+}
+
 export const CATEGORY_ICONS: Record<ToolCategory, () => ReactElement> = {
   pdf: PdfIcon,
   images: ImageIcon,
@@ -114,4 +123,5 @@ export const CATEGORY_ICONS: Record<ToolCategory, () => ReactElement> = {
   web: WebIcon,
   video: VideoIcon,
   audio: AudioIcon,
+  latex: LatexIcon,
 }

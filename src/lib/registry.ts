@@ -13,6 +13,7 @@ export const CATEGORIES: CategoryMeta[] = [
   { id: 'web', label: 'Web', description: 'URL, sitemap and meta-tag tools for site owners' },
   { id: 'video', label: 'Video', description: 'Convert, compress, trim and export video' },
   { id: 'audio', label: 'Audio', description: 'Convert, trim and adjust audio' },
+  { id: 'latex', label: 'LaTeX', description: 'Write and compile real LaTeX documents' },
 ]
 
 // Every tool here is fully working and 100% client-side (Phase 1 scope).
@@ -101,6 +102,13 @@ export const TOOLS: ToolMeta[] = [
   { id: 'audio-trim', name: 'Audio Trimmer', description: 'Cut an audio file down to a start and end time.', category: 'audio', path: '/audio/trim', keywords: ['audio', 'trim', 'cut', 'clip'], processing: 'client' },
   { id: 'audio-compress', name: 'Audio Compressor', description: 'Reduce audio file size by changing the bitrate.', category: 'audio', path: '/audio/compress', keywords: ['audio', 'compress', 'bitrate', 'reduce'], processing: 'client' },
   { id: 'audio-volume', name: 'Volume / Normalize', description: 'Adjust volume or auto-normalize loudness.', category: 'audio', path: '/audio/volume', keywords: ['audio', 'volume', 'normalize', 'loudness'], processing: 'client' },
+
+  // LaTeX -- the one genuinely server-processed tool in this app (see
+  // api/compile-latex.ts): there's no maintained WASM LaTeX compiler to run
+  // this client-side, so real compilation happens in an ephemeral
+  // serverless function. Only the .tex source is ever sent, and nothing is
+  // retained after the response.
+  { id: 'latex-workspace', name: 'LaTeX Workspace', description: 'Write LaTeX with real compilation and a live PDF preview.', category: 'latex', path: '/latex/workspace', keywords: ['latex', 'tex', 'compile', 'pdf', 'editor'], processing: 'server' },
 ]
 
 // Named in the spec but deliberately not built yet -- surfaced honestly in
@@ -111,7 +119,6 @@ export const TOOLS: ToolMeta[] = [
 // (a real WASM LaTeX engine).
 export const COMING_SOON: { name: string; category: ToolCategory }[] = [
   { name: 'Protect / Unlock PDF', category: 'pdf' },
-  { name: 'LaTeX Workspace', category: 'developer' },
   { name: 'Background Removal', category: 'images' },
   { name: 'AI Document Tools', category: 'developer' },
   { name: 'Webpage Screenshot / HTML to PDF', category: 'web' },

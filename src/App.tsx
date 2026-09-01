@@ -71,6 +71,8 @@ const AudioTrim = lazy(() => import('./tools/audio/AudioTrim'))
 const AudioCompress = lazy(() => import('./tools/audio/AudioCompress'))
 const AudioVolume = lazy(() => import('./tools/audio/AudioVolume'))
 
+const LatexWorkspace = lazy(() => import('./tools/latex/LatexWorkspace'))
+
 const UrlParser = lazy(() => import('./tools/web/UrlParser'))
 const UtmBuilder = lazy(() => import('./tools/web/UtmBuilder'))
 const OgGenerator = lazy(() => import('./tools/web/OgGenerator'))
@@ -159,6 +161,8 @@ export default function App() {
             <Route path="/audio/trim" element={<AudioTrim />} />
             <Route path="/audio/compress" element={<AudioCompress />} />
             <Route path="/audio/volume" element={<AudioVolume />} />
+
+            <Route path="/latex/workspace" element={<LatexWorkspace />} />
 
             <Route path="*" element={<NotFound />} />
           </Route>
