@@ -4,79 +4,71 @@ import { SearchBar } from '../components/SearchBar'
 import { ToolCard } from '../components/ToolCard'
 import { StaggerGrid } from '../components/StaggerGrid'
 import { CATEGORY_ICONS } from '../components/icons'
-import { CATEGORIES, popularTools, toolsByCategory } from '../lib/registry'
+import { CATEGORIES, TOOLS, popularTools, toolsByCategory } from '../lib/registry'
 import { categoryColor } from '../lib/categoryColors'
-
-const EXAMPLES = ['Compress my PDF', 'Convert JPG to WebP', 'Merge these PDFs', 'Turn this CSV into JSON', 'Remove image metadata']
 
 const fadeUp = {
   hidden: { opacity: 0, y: 16 },
   visible: { opacity: 1, y: 0 },
 }
 
+// A handful of real tools, one per showcased category, for the hero's
+// preview cascade -- actual product content, not decoration.
+const SHOWCASE_IDS = ['merge-pdf', 'video-to-gif', 'latex-workspace', 'image-to-text']
+
 export default function HomePage() {
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-16 px-4 py-14 sm:px-6">
-      <section className="relative flex flex-col items-center gap-6 overflow-hidden text-center">
+      <section className="relative grid grid-cols-1 items-center gap-10 overflow-hidden lg:grid-cols-[1.2fr_1fr]">
         <DotGridBackground />
 
-        <motion.h1
-          initial="hidden"
-          animate="visible"
-          variants={fadeUp}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-2xl font-display text-4xl font-semibold tracking-tight text-text sm:text-5xl"
-        >
-          One Toolbox. <span style={{ color: 'var(--accent)' }}>Everything</span> You Need.
-        </motion.h1>
-        <motion.p
-          initial="hidden"
-          animate="visible"
-          variants={fadeUp}
-          transition={{ duration: 0.6, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-xl text-base text-text-muted sm:text-lg"
-        >
-          Convert, compress, edit, analyze and transform your files — privately, quickly, and without permanent
-          storage.
-        </motion.p>
+        <div className="flex flex-col gap-5">
+          <motion.h1
+            initial="hidden"
+            animate="visible"
+            variants={fadeUp}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="font-display text-4xl font-semibold tracking-tight text-text sm:text-5xl"
+          >
+            Convert anything.
+            <br />
+            Upload{' '}
+            <span className="text-text-faint line-through decoration-2">everything</span>{' '}
+            <span style={{ color: 'var(--accent)' }}>nothing.</span>
+          </motion.h1>
+          <motion.p
+            initial="hidden"
+            animate="visible"
+            variants={fadeUp}
+            transition={{ duration: 0.6, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+            className="max-w-md text-base text-text-muted sm:text-lg"
+          >
+            59 real tools for PDFs, images, video, audio, code and more — every one of them runs
+            in your browser. Nothing you drop in ever leaves it.
+          </motion.p>
 
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={fadeUp}
-          transition={{ duration: 0.6, delay: 0.16, ease: [0.22, 1, 0.36, 1] }}
-          className="w-full max-w-xl"
-        >
-          <SearchBar size="lg" />
-          <div className="mt-3 flex flex-wrap justify-center gap-2">
-            {EXAMPLES.map((ex) => (
-              <span
-                key={ex}
-                className="rounded-full border border-border-strong bg-bg-elevated px-3 py-1 text-xs text-text-muted shadow-sm transition-colors hover:border-accent hover:text-accent"
-              >
-                {ex}
-              </span>
-            ))}
-          </div>
-        </motion.div>
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={fadeUp}
+            transition={{ duration: 0.6, delay: 0.16, ease: [0.22, 1, 0.36, 1] }}
+            className="max-w-md"
+          >
+            <SearchBar size="lg" />
+          </motion.div>
 
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={fadeUp}
-          transition={{ duration: 0.6, delay: 0.24, ease: [0.22, 1, 0.36, 1] }}
-          className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 pt-2 text-xs text-text-faint"
-        >
-          <span className="flex items-center gap-1.5">
-            <Dot color="var(--success)" /> No permanent file storage
-          </span>
-          <span className="flex items-center gap-1.5">
-            <Dot color="var(--success)" /> No account required
-          </span>
-          <span className="flex items-center gap-1.5">
-            <Dot color="var(--success)" /> Free, forever
-          </span>
-        </motion.div>
+          <motion.p
+            initial="hidden"
+            animate="visible"
+            variants={fadeUp}
+            transition={{ duration: 0.6, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
+            className="font-mono text-xs text-text-faint"
+          >
+            no uploads &middot; no account &middot; free forever
+          </motion.p>
+        </div>
+
+        <ShowcaseCascade />
       </section>
 
       <section>
@@ -128,8 +120,45 @@ export default function HomePage() {
   )
 }
 
-function Dot({ color }: { color: string }) {
-  return <span className="h-1.5 w-1.5 rounded-full" style={{ background: color }} />
+/** Real tools, not decoration -- a loose vertical cascade with a slight
+ * alternating offset instead of the two-blob-gradient (flagged as generic)
+ * or a perfectly centered stack (the other cliché this hero was trying to
+ * avoid). Each card links straight to the real tool. Desktop-only: on
+ * narrow screens this column is dropped rather than squeezed, so mobile
+ * gets the full-width text and search instead of a cramped preview. */
+function ShowcaseCascade() {
+  const tools = SHOWCASE_IDS.map((id) => TOOLS.find((t) => t.id === id)!).filter(Boolean)
+  return (
+    <div className="relative hidden flex-col gap-3 lg:flex">
+      {tools.map((tool, i) => {
+        const Icon = CATEGORY_ICONS[tool.category]
+        const color = categoryColor(tool.category)
+        return (
+          <motion.div
+            key={tool.id}
+            initial={{ opacity: 0, x: 24 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.15 + i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+            style={{ marginLeft: i % 2 === 1 ? '2.5rem' : 0 }}
+          >
+            <Link
+              to={tool.path}
+              className="flex items-center gap-3 rounded-xl border border-border bg-bg-elevated px-4 py-3 shadow-sm transition-colors hover:border-[color:var(--tool-accent)]"
+              style={{ '--tool-accent': color } as React.CSSProperties}
+            >
+              <span
+                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
+                style={{ background: `color-mix(in srgb, ${color} 16%, transparent)`, color }}
+              >
+                <Icon />
+              </span>
+              <span className="text-sm font-medium text-text">{tool.name}</span>
+            </Link>
+          </motion.div>
+        )
+      })}
+    </div>
+  )
 }
 
 /** Third pass on the hero background. The soft blurred gradient blob (two
