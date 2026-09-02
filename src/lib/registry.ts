@@ -17,6 +17,7 @@ export const CATEGORIES: CategoryMeta[] = [
   { id: 'privacy', label: 'Privacy', description: 'Scan text and files for sensitive data before you share them' },
   { id: 'time', label: 'Time & Timezones', description: 'Convert times across cities, DST-aware, with a world map' },
   { id: 'baking', label: 'Baking & Recipes', description: 'Convert recipe measurements and oven temperatures' },
+  { id: 'ai', label: 'AI & Prompts', description: 'Build and check prompts, and count real tokens -- no API key, no LLM call' },
 ]
 
 // Every tool here is fully working and 100% client-side (Phase 1 scope).
@@ -147,6 +148,14 @@ export const TOOLS: ToolMeta[] = [
 
   // Baking & Recipes
   { id: 'baking-converter', name: 'Baking Converter', description: 'Convert common recipe measurements -- cups, grams, ounces, spoons, oven temperature.', category: 'baking', path: '/baking/converter', keywords: ['baking', 'recipe', 'cooking', 'cups', 'grams', 'ounces', 'oven', 'converter'], processing: 'client' },
+
+  // AI & Prompts -- no API key, no LLM call, same zero-backend rule as
+  // everything else here. Real AI-powered tools (an actual prompt
+  // rewriter, a chat assistant) would need a backend + a paid model API,
+  // which is why they're not here -- see the roadmap.
+  { id: 'prompt-builder', name: 'Prompt Builder', description: 'Assemble a well-structured prompt from role, task, context, constraints and examples.', category: 'ai', path: '/ai/prompt-builder', keywords: ['prompt', 'ai', 'llm', 'chatgpt', 'claude', 'builder', 'role', 'persona', 'template'], processing: 'client' },
+  { id: 'prompt-analyzer', name: 'Prompt Analyzer', description: 'A rule-based checklist against known prompt-engineering advice -- not an AI call.', category: 'ai', path: '/ai/prompt-analyzer', keywords: ['prompt', 'ai', 'llm', 'analyzer', 'checker', 'linter', 'improve', 'fixer'], processing: 'client' },
+  { id: 'token-counter', name: 'Token Counter', description: "Count a prompt's real tokens (OpenAI's cl100k_base tokenizer, run locally) against common context windows.", category: 'ai', path: '/ai/token-counter', keywords: ['token', 'counter', 'ai', 'llm', 'context window', 'tiktoken', 'gpt'], processing: 'client' },
 ]
 
 // Named in the spec but deliberately not built yet -- surfaced honestly in
@@ -161,6 +170,7 @@ export const COMING_SOON: { name: string; category: ToolCategory; reason?: strin
   { name: 'Webpage Screenshot / HTML to PDF', category: 'web', reason: 'Needs a real backend -- fetching an arbitrary URL is blocked by browser CORS from client-side JS.' },
   { name: 'HTTP Status & Header Checker', category: 'web', reason: 'Same CORS limitation -- checking a third-party URL\'s headers needs a server to do the fetch.' },
   { name: 'Translator', category: 'text', reason: 'Not currently planned: a real translator needs either a paid API (breaks free-forever) or a large, lower-quality client-side model. Open to it if that tradeoff ever makes sense.' },
+  { name: 'AI Prompt Rewriter / Chat Assistant', category: 'ai', reason: 'Same tradeoff as the translator: an actual LLM call needs a backend and a paid model API, which breaks the free-forever/no-account model. The Prompt Builder and Analyzer cover the structuring/checking side without needing one.' },
 ]
 
 export function toolsByCategory(category: string): ToolMeta[] {
@@ -174,7 +184,7 @@ export function popularTools(): ToolMeta[] {
     'merge-pdf', 'image-convert', 'json-formatter', 'word-counter', 'qr-generator',
     'file-analyzer', 'image-to-text', 'create-zip', 'csv-viewer', 'url-parser',
     'video-convert', 'audio-convert', 'latex-workspace', 'sensitive-data-scanner',
-    'timezone-converter', 'baking-converter',
+    'timezone-converter', 'baking-converter', 'prompt-builder',
   ]
   return ids.map((id) => TOOLS.find((t) => t.id === id)!).filter(Boolean)
 }

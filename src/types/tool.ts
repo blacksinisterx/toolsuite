@@ -15,6 +15,7 @@ export type ToolCategory =
   | 'privacy'
   | 'time'
   | 'baking'
+  | 'ai'
 
 export interface ToolMeta {
   id: string

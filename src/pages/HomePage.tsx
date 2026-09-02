@@ -43,7 +43,7 @@ export default function HomePage() {
             transition={{ duration: 0.6, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
             className="max-w-md text-base text-text-muted sm:text-lg"
           >
-            88 real tools for PDFs, images, video, audio, code and more — every one of them runs
+            91 real tools for PDFs, images, video, audio, code and more — every one of them runs
             in your browser. Nothing you drop in ever leaves it.
           </motion.p>
 

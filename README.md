@@ -26,7 +26,7 @@ that briefly touches a server.
 
 ## What's built
 
-88 fully working tools, all client-side unless noted:
+91 fully working tools, all client-side unless noted:
 
 - **PDF** — Merge, Split, Extract Pages, Delete Pages, Rotate, Reorder (drag-and-drop),
   JPG/PNG → PDF, PDF → JPG, Compress, Watermark, PDF Annotator (text/highlight/rectangle, any
@@ -66,6 +66,12 @@ that briefly touches a server.
 - **LaTeX** — a real LaTeX editor (CodeMirror, syntax highlighting) with live compilation and PDF
   preview (the one tool that briefly uses a server — see [Backend & security](#backend--security)
   below)
+- **AI & Prompts** — Prompt Builder (assembles role/task/context/constraints/examples into a
+  clean prompt, XML-tag/Markdown/plain), Prompt Analyzer (a rule-based checklist against known
+  prompt-engineering advice — not an LLM call), Token Counter (OpenAI's real cl100k_base
+  tokenizer, run locally, against common context windows). No API key anywhere — an actual
+  AI-powered rewriter/chat would need a backend and a paid model API, same tradeoff as the
+  translator, so it's on the [Roadmap](https://multitoolsuite.vercel.app/roadmap) instead of faked.
 
 Missing something? [Suggest a tool](https://multitoolsuite.vercel.app/suggest) — no account needed,
 opens a pre-filled GitHub issue on this repo. See what's already planned on the

@@ -20,6 +20,7 @@ export const CATEGORY_VAR: Record<ToolCategory, string> = {
   privacy: '--cat-privacy',
   time: '--cat-time',
   baking: '--cat-baking',
+  ai: '--cat-ai',
 }
 
 export function categoryColor(category: ToolCategory): string {

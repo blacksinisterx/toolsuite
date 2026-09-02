@@ -67,6 +67,9 @@ const TipCalculator = lazy(() => import('./tools/utilities/TipCalculator'))
 const ContrastChecker = lazy(() => import('./tools/utilities/ContrastChecker'))
 const TimezoneConverter = lazy(() => import('./tools/time/TimezoneConverter'))
 const BakingConverter = lazy(() => import('./tools/baking/BakingConverter'))
+const PromptBuilder = lazy(() => import('./tools/ai/PromptBuilder'))
+const PromptAnalyzer = lazy(() => import('./tools/ai/PromptAnalyzer'))
+const TokenCounter = lazy(() => import('./tools/ai/TokenCounter'))
 const SymbolPicker = lazy(() => import('./tools/utilities/SymbolPicker'))
 const QrScanner = lazy(() => import('./tools/utilities/QrScanner'))
 const FaviconGenerator = lazy(() => import('./tools/utilities/FaviconGenerator'))
@@ -183,6 +186,10 @@ export default function App() {
             <Route path="/utilities/contrast-checker" element={<ContrastChecker />} />
             <Route path="/time/timezone-converter" element={<TimezoneConverter />} />
             <Route path="/baking/converter" element={<BakingConverter />} />
+
+            <Route path="/ai/prompt-builder" element={<PromptBuilder />} />
+            <Route path="/ai/prompt-analyzer" element={<PromptAnalyzer />} />
+            <Route path="/ai/token-counter" element={<TokenCounter />} />
             <Route path="/utilities/symbols" element={<SymbolPicker />} />
             <Route path="/utilities/qr-scanner" element={<QrScanner />} />
             <Route path="/utilities/favicon-generator" element={<FaviconGenerator />} />
