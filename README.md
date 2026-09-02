@@ -8,7 +8,7 @@ should be.
 
 ## What's built (Phase 1 + Phase 2)
 
-71 fully working tools, all client-side:
+75 fully working tools, all client-side:
 
 - **PDF** — Merge, Split, Extract Pages, Delete Pages, Rotate, Reorder (drag-and-drop),
   JPG/PNG → PDF, PDF → JPG, Compress, Watermark, Add Text (click-to-place), Page Numbers
@@ -18,7 +18,8 @@ should be.
   HTML/CSS/JS Formatter
 - **Text** — Word Counter, Case Converter, Text Diff, Markdown Editor, Text Cleaner (dedupe/trim),
   Lorem Ipsum Generator
-- **Utilities** — QR Generator, Color Converter, Password Generator, Scientific Calculator,
+- **Utilities** — QR Generator, QR Scanner, Color Converter, Color Palette Generator,
+  Gradient Generator, Favicon Generator, Password Generator, Scientific Calculator,
   Unit Converter, Percentage Calculator, Number Base Converter, Date & Time Calculator,
   Random Number Generator
 - **File Analyzer** — type, size, hash, and format-specific metadata for any file
