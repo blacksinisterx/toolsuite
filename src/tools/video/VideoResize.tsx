@@ -62,13 +62,14 @@ export default function VideoResize() {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className={labelCls} htmlFor="w">Width</label>
-              <input id="w" type="number" className={inputCls} value={width} onChange={(e) => setWidth(Number(e.target.value))} />
+              <input id="w" type="number" step={2} className={inputCls} value={width} onChange={(e) => setWidth(Number(e.target.value))} />
             </div>
             <div>
               <label className={labelCls} htmlFor="h">Height</label>
-              <input id="h" type="number" className={inputCls} value={height} onChange={(e) => setHeight(Number(e.target.value))} />
+              <input id="h" type="number" step={2} className={inputCls} value={height} onChange={(e) => setHeight(Number(e.target.value))} />
             </div>
           </div>
+          <p className="text-xs text-text-faint">Rounded to the nearest even number -- video encoders require it.</p>
         </>
       )}
 
