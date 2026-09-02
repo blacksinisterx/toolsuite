@@ -24,3 +24,7 @@ dist-ssr
 *.sw?
 
 .vercel
+
+# Demo recordings -- kept locally, not committed (large binaries, not
+# something the repo itself needs to carry).
+docs/demo-videos/
