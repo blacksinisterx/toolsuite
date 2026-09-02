@@ -58,6 +58,9 @@ const PercentageCalculator = lazy(() => import('./tools/utilities/PercentageCalc
 const BaseConverter = lazy(() => import('./tools/utilities/BaseConverter'))
 const DateCalculator = lazy(() => import('./tools/utilities/DateCalculator'))
 const RandomNumberGenerator = lazy(() => import('./tools/utilities/RandomNumberGenerator'))
+const TimezoneConverter = lazy(() => import('./tools/utilities/TimezoneConverter'))
+const BakingConverter = lazy(() => import('./tools/utilities/BakingConverter'))
+const SymbolPicker = lazy(() => import('./tools/utilities/SymbolPicker'))
 const QrScanner = lazy(() => import('./tools/utilities/QrScanner'))
 const FaviconGenerator = lazy(() => import('./tools/utilities/FaviconGenerator'))
 const ColorPaletteGenerator = lazy(() => import('./tools/utilities/ColorPaletteGenerator'))
@@ -161,6 +164,9 @@ export default function App() {
             <Route path="/utilities/base-converter" element={<BaseConverter />} />
             <Route path="/utilities/date-calculator" element={<DateCalculator />} />
             <Route path="/utilities/random-number-generator" element={<RandomNumberGenerator />} />
+            <Route path="/utilities/timezone-converter" element={<TimezoneConverter />} />
+            <Route path="/utilities/baking-converter" element={<BakingConverter />} />
+            <Route path="/utilities/symbols" element={<SymbolPicker />} />
             <Route path="/utilities/qr-scanner" element={<QrScanner />} />
             <Route path="/utilities/favicon-generator" element={<FaviconGenerator />} />
             <Route path="/utilities/color-palette-generator" element={<ColorPaletteGenerator />} />

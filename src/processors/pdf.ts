@@ -169,26 +169,39 @@ export async function watermarkPdf(file: File, text: string, opacity: number): P
   return pdfBlob(bytes)
 }
 
-/** xFrac/yFrac are 0..1 fractions of the page, measured from the TOP-LEFT
+export type Annotation =
+  | { kind: 'text'; pageIndex: number; x: number; y: number; text: string; size: number; color: string }
+  | { kind: 'highlight'; pageIndex: number; x: number; y: number; w: number; h: number; color: string }
+  | { kind: 'rect'; pageIndex: number; x: number; y: number; w: number; h: number; color: string }
+
+function hexToRgbFractions(hex: string) {
+  return {
+    r: parseInt(hex.slice(1, 3), 16) / 255,
+    g: parseInt(hex.slice(3, 5), 16) / 255,
+    b: parseInt(hex.slice(5, 7), 16) / 255,
+  }
+}
+
+/** x/y/w/h are 0..1 fractions of the page, measured from the TOP-LEFT
  * (matching how a thumbnail image is clicked) -- converted here to PDF's
- * own bottom-left-origin point space. */
-export async function addTextToPdf(
-  file: File,
-  pageIndex: number,
-  xFrac: number,
-  yFrac: number,
-  text: string,
-  size: number,
-  colorHex: string,
-): Promise<Blob> {
+ * own bottom-left-origin point space. Applies every annotation in one
+ * pass and saves once, so a multi-element edit is a single real PDF
+ * write, not one re-save per element. */
+export async function applyAnnotations(file: File, annotations: Annotation[]): Promise<Blob> {
   const doc = await loadPdf(file)
-  const page = doc.getPage(pageIndex)
-  const { width, height } = page.getSize()
   const font = await doc.embedFont(StandardFonts.Helvetica)
-  const r = parseInt(colorHex.slice(1, 3), 16) / 255
-  const g = parseInt(colorHex.slice(3, 5), 16) / 255
-  const b = parseInt(colorHex.slice(5, 7), 16) / 255
-  page.drawText(text, { x: xFrac * width, y: height - yFrac * height, size, font, color: rgb(r, g, b) })
+  for (const a of annotations) {
+    const page = doc.getPage(a.pageIndex)
+    const { width, height } = page.getSize()
+    const { r, g, b } = hexToRgbFractions(a.color)
+    if (a.kind === 'text') {
+      page.drawText(a.text, { x: a.x * width, y: height - a.y * height, size: a.size, font, color: rgb(r, g, b) })
+    } else if (a.kind === 'highlight') {
+      page.drawRectangle({ x: a.x * width, y: height - (a.y + a.h) * height, width: a.w * width, height: a.h * height, color: rgb(r, g, b), opacity: 0.4 })
+    } else {
+      page.drawRectangle({ x: a.x * width, y: height - (a.y + a.h) * height, width: a.w * width, height: a.h * height, borderColor: rgb(r, g, b), borderWidth: 2 })
+    }
+  }
   const bytes = await doc.save()
   return pdfBlob(bytes)
 }

@@ -1,12 +1,18 @@
 import { useState } from 'react'
+import CodeMirror from '@uiw/react-codemirror'
+import { StreamLanguage } from '@codemirror/language'
+import { stex } from '@codemirror/legacy-modes/mode/stex'
 import { ToolLayout } from '../../components/ToolLayout'
 import { Button } from '../../components/Button'
 import { ErrorState } from '../../components/States'
-import { textareaCls, labelCls } from '../../components/formStyles'
+import { labelCls } from '../../components/formStyles'
 import { downloadBlob } from '../../lib/download'
 import { LATEX_TEMPLATES } from '../../lib/latexTemplates'
 import { compileLatex } from '../../processors/latex'
+import { appEditorTheme } from '../../lib/codeMirrorTheme'
 import { TOOLS } from '../../lib/registry'
+
+const latexLang = StreamLanguage.define(stex)
 
 const tool = TOOLS.find((t) => t.id === 'latex-workspace')!
 
@@ -83,14 +89,17 @@ export default function LatexWorkspace() {
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div>
-          <label className={labelCls} htmlFor="editor">main.tex</label>
-          <textarea
-            id="editor"
-            className={`${textareaCls} h-[65vh] resize-none`}
-            spellCheck={false}
-            value={source}
-            onChange={(e) => setSource(e.target.value)}
-          />
+          <p className={labelCls}>main.tex</p>
+          <div className="h-[65vh] overflow-hidden rounded-lg border border-border">
+            <CodeMirror
+              value={source}
+              onChange={setSource}
+              height="65vh"
+              theme={appEditorTheme}
+              extensions={[latexLang]}
+              basicSetup={{ lineNumbers: true, foldGutter: true, highlightActiveLine: true, bracketMatching: true, autocompletion: false }}
+            />
+          </div>
         </div>
         <div>
           <p className={labelCls}>Preview</p>
