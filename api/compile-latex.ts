@@ -4,8 +4,39 @@ import { promisify } from 'node:util'
 import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import { Ratelimit } from '@upstash/ratelimit'
+import { Redis } from '@upstash/redis'
 
 const execFileAsync = promisify(execFile)
+
+// This is the one endpoint in the whole app that costs real money to run --
+// every other tool executes for free in the visitor's own browser. It's
+// also unauthenticated and its URL isn't secret (it's right there in the
+// shipped JS bundle), so it needs its own defense against someone just
+// looping requests at it. Upstash's REST-based Redis is what makes a real,
+// atomic rate limit possible from a stateless serverless function (no
+// persistent connection, no in-memory counter that resets every cold start).
+//
+// Fails OPEN, not closed: if UPSTASH_REDIS_REST_URL/TOKEN aren't set (e.g.
+// local dev, or before the free Upstash database is wired up), compiling
+// still works -- it just isn't rate-limited yet. See README for setup.
+const redis =
+  process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
+    ? new Redis({ url: process.env.UPSTASH_REDIS_REST_URL, token: process.env.UPSTASH_REDIS_REST_TOKEN })
+    : null
+
+// 10 compiles per 10 minutes per IP -- generous enough for a real editing
+// session (type, compile, tweak, compile again) while still shutting down
+// a script that loops this endpoint.
+const ratelimit = redis
+  ? new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(10, '10 m'), prefix: 'latex-compile' })
+  : null
+
+function clientIp(req: VercelRequest): string {
+  const fwd = req.headers['x-forwarded-for']
+  const raw = Array.isArray(fwd) ? fwd[0] : fwd
+  return raw?.split(',')[0]?.trim() || 'unknown'
+}
 
 // The only genuinely server-side piece of this whole app: a real LaTeX
 // compiler (Tectonic, a self-contained Rust TeX engine) bundled as a static
@@ -80,6 +111,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Use POST.' })
     return
+  }
+
+  if (ratelimit) {
+    const { success, limit, remaining, reset } = await ratelimit.limit(clientIp(req))
+    res.setHeader('X-RateLimit-Limit', String(limit))
+    res.setHeader('X-RateLimit-Remaining', String(remaining))
+    if (!success) {
+      const retryAfterSec = Math.max(1, Math.ceil((reset - Date.now()) / 1000))
+      res.setHeader('Retry-After', String(retryAfterSec))
+      res.status(429).json({ error: `Too many compile requests. Try again in ${retryAfterSec}s.` })
+      return
+    }
   }
 
   const { source: rawSource } = (req.body ?? {}) as { source?: string }
