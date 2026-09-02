@@ -1,24 +1,9 @@
 import { useMemo, useState } from 'react'
 import { ToolLayout } from '../../components/ToolLayout'
-import { hexToRgb, type Rgb } from '../../lib/color'
+import { hexToRgb, contrastRatio } from '../../lib/color'
 import { TOOLS } from '../../lib/registry'
 
 const tool = TOOLS.find((t) => t.id === 'contrast-checker')!
-
-// WCAG 2.x relative luminance + contrast ratio -- the real formulas, not
-// an approximation.
-function relativeLuminance({ r, g, b }: Rgb): number {
-  const chan = (v: number) => {
-    const c = v / 255
-    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4
-  }
-  return 0.2126 * chan(r) + 0.7152 * chan(g) + 0.0722 * chan(b)
-}
-
-function contrastRatio(a: Rgb, b: Rgb): number {
-  const [l1, l2] = [relativeLuminance(a), relativeLuminance(b)].sort((x, y) => y - x)
-  return (l1 + 0.05) / (l2 + 0.05)
-}
 
 function Badge({ pass, label }: { pass: boolean; label: string }) {
   return (

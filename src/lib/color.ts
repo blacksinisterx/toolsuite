@@ -51,3 +51,27 @@ export function hslToRgb({ h, s, l }: Hsl): Rgb {
   else [r, g, b] = [c, 0, x]
   return { r: (r + m) * 255, g: (g + m) * 255, b: (b + m) * 255 }
 }
+
+// WCAG 2.x relative luminance + contrast ratio -- the real formulas, used
+// by both the Contrast Checker and the Palette Generator's readable-text
+// hint per swatch.
+export function relativeLuminance({ r, g, b }: Rgb): number {
+  const chan = (v: number) => {
+    const c = v / 255
+    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4
+  }
+  return 0.2126 * chan(r) + 0.7152 * chan(g) + 0.0722 * chan(b)
+}
+
+export function contrastRatio(a: Rgb, b: Rgb): number {
+  const [l1, l2] = [relativeLuminance(a), relativeLuminance(b)].sort((x, y) => y - x)
+  return (l1 + 0.05) / (l2 + 0.05)
+}
+
+/** Which of black or white reads better on this color -- the simple,
+ * correct way to auto-pick swatch label / overlay text color. */
+export function readableTextColor(bg: Rgb): '#000000' | '#ffffff' {
+  const white: Rgb = { r: 255, g: 255, b: 255 }
+  const black: Rgb = { r: 0, g: 0, b: 0 }
+  return contrastRatio(bg, white) >= contrastRatio(bg, black) ? '#ffffff' : '#000000'
+}
