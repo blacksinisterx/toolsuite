@@ -26,11 +26,12 @@ that briefly touches a server.
 
 ## What's built
 
-77 fully working tools, all client-side unless noted:
+81 fully working tools, all client-side unless noted:
 
 - **PDF** — Merge, Split, Extract Pages, Delete Pages, Rotate, Reorder (drag-and-drop),
-  JPG/PNG → PDF, PDF → JPG, Compress, Watermark, Add Text (click-to-place), Page Numbers,
-  PDF to Text (real text-layer extraction), Remove PDF Metadata
+  JPG/PNG → PDF, PDF → JPG, Compress, Watermark, PDF Annotator (text/highlight/rectangle, any
+  number of edits, one download), Page Numbers, PDF to Text (real text-layer extraction),
+  Remove PDF Metadata
 - **Images** — Convert (JPG/PNG/WebP), Resize, Crop, Compress, Rotate, Remove Metadata
 - **Developer** — JSON Formatter, JSON ⇄ CSV, JSON ⇄ YAML, JSON ⇄ XML, Base64, URL Encode/Decode,
   Hash Generator (MD5/SHA-1/256/512), JWT Decoder, UUID Generator, Regex Tester, SQL Formatter,
@@ -40,11 +41,14 @@ that briefly touches a server.
 - **Utilities** — QR Generator, QR Scanner, Color Converter, Color Palette Generator,
   Gradient Generator, Favicon Generator, Password Generator, Scientific Calculator,
   Unit Converter, Percentage Calculator, Number Base Converter, Date & Time Calculator,
-  Random Number Generator
+  Random Number Generator, Timezone Converter (DST-aware, via the browser's own Intl database),
+  Baking Converter (ingredient-aware weight/volume + oven temps), Symbols & Characters
+  (click-to-copy arrows/math/currency/punctuation)
 - **File Analyzer** — type, size, hash, and format-specific metadata for any file
 - **OCR** — Image to Text, PDF to Text (real WASM OCR via Tesseract.js)
 - **Archives** — Create ZIP, Extract ZIP
-- **Data** — CSV Viewer, CSV Cleaner, CSV ⇄ Excel, JSON Tree Viewer
+- **Data** — CSV Viewer, CSV Cleaner, CSV ⇄ Excel, JSON Tree Viewer, Markdown to EPUB (real,
+  spec-valid EPUB3)
 - **Web** — URL Parser, UTM Builder/Cleaner, Open Graph Generator, Robots.txt Generator,
   Sitemap Generator
 - **Video** — Converter (MP4/WebM/MOV/AVI/MKV), Compressor, Trimmer, Video → GIF, Extract Audio,
@@ -52,8 +56,12 @@ that briefly touches a server.
 - **Audio** — Converter (MP3/WAV/M4A/OGG/FLAC), Trimmer, Compressor, Volume/Normalize
 - **Privacy** — Sensitive Data Scanner (emails, cards, keys and more, regex-based, nothing leaves
   your browser)
-- **LaTeX** — a real LaTeX editor with live compilation and PDF preview (the one tool that briefly
-  uses a server — see [Backend & security](#backend--security) below)
+- **LaTeX** — a real LaTeX editor (CodeMirror, syntax highlighting) with live compilation and PDF
+  preview (the one tool that briefly uses a server — see [Backend & security](#backend--security)
+  below)
+
+Missing something? [Suggest a tool](https://multitoolsuite.vercel.app/suggest) — no account needed,
+opens a pre-filled GitHub issue on this repo.
 
 Plus: global search, category browsing, light/dark theme, responsive layout, and a shared
 component architecture so new tools are cheap to add.

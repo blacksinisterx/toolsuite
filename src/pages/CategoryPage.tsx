@@ -51,7 +51,11 @@ export default function CategoryPage() {
           <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-text-faint">Coming later</h2>
           <div className="flex flex-wrap gap-2">
             {comingSoon.map((c) => (
-              <span key={c.name} className="rounded-full border border-dashed border-border-strong px-3 py-1.5 text-xs text-text-faint">
+              <span
+                key={c.name}
+                title={c.reason}
+                className={`rounded-full border border-dashed border-border-strong px-3 py-1.5 text-xs text-text-faint ${c.reason ? 'cursor-help' : ''}`}
+              >
                 {c.name}
               </span>
             ))}

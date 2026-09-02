@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { RootLayout } from './components/RootLayout'
 import HomePage from './pages/HomePage'
 import CategoryPage from './pages/CategoryPage'
+import SuggestPage from './pages/SuggestPage'
 
 // Every tool is lazy-loaded -- the homepage never pulls in pdf-lib,
 // pdfjs-dist, qrcode, marked etc. up front (Performance principle: don't
@@ -78,6 +79,7 @@ const CsvViewer = lazy(() => import('./tools/data/CsvViewer'))
 const CsvCleaner = lazy(() => import('./tools/data/CsvCleaner'))
 const CsvExcel = lazy(() => import('./tools/data/CsvExcel'))
 const JsonTreeViewer = lazy(() => import('./tools/data/JsonTreeViewer'))
+const MarkdownToEpub = lazy(() => import('./tools/data/MarkdownToEpub'))
 
 const VideoConvert = lazy(() => import('./tools/video/VideoConvert'))
 const VideoCompress = lazy(() => import('./tools/video/VideoCompress'))
@@ -112,6 +114,7 @@ export default function App() {
           <Route element={<RootLayout />}>
             <Route path="/" element={<HomePage />} />
             <Route path="/category/:category" element={<CategoryPage />} />
+            <Route path="/suggest" element={<SuggestPage />} />
 
             <Route path="/pdf/merge" element={<MergePdf />} />
             <Route path="/pdf/split" element={<SplitPdf />} />
@@ -184,6 +187,7 @@ export default function App() {
             <Route path="/data/csv-cleaner" element={<CsvCleaner />} />
             <Route path="/data/csv-excel" element={<CsvExcel />} />
             <Route path="/data/json-tree-viewer" element={<JsonTreeViewer />} />
+            <Route path="/data/markdown-to-epub" element={<MarkdownToEpub />} />
 
             <Route path="/web/url-parser" element={<UrlParser />} />
             <Route path="/web/utm-builder" element={<UtmBuilder />} />

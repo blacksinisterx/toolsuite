@@ -82,8 +82,9 @@ export function RootLayout() {
         </main>
       </div>
 
-      <footer className="border-t border-border px-6 py-5 text-center text-xs text-text-faint">
-        Your files stay yours — processed temporarily and never kept in a permanent library.
+      <footer className="flex flex-col items-center gap-2 border-t border-border px-6 py-5 text-center text-xs text-text-faint">
+        <p>Your files stay yours — processed temporarily and never kept in a permanent library.</p>
+        <Link to="/suggest" className="text-accent hover:underline">Missing a tool? Suggest one →</Link>
       </footer>
     </div>
   )

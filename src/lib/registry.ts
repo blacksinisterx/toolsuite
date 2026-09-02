@@ -102,6 +102,7 @@ export const TOOLS: ToolMeta[] = [
   { id: 'csv-cleaner', name: 'CSV Cleaner', description: 'Remove duplicate rows, trim whitespace, drop empty rows.', category: 'data', path: '/data/csv-cleaner', keywords: ['csv', 'clean', 'duplicate', 'trim'], processing: 'client' },
   { id: 'csv-excel', name: 'CSV ⇄ Excel', description: 'Convert between CSV and Excel (.xlsx).', category: 'data', path: '/data/csv-excel', keywords: ['csv', 'excel', 'xlsx', 'convert', 'spreadsheet'], processing: 'client' },
   { id: 'json-tree-viewer', name: 'JSON Tree Viewer', description: 'Browse JSON as a collapsible tree.', category: 'data', path: '/data/json-tree-viewer', keywords: ['json', 'tree', 'viewer', 'explorer'], processing: 'client' },
+  { id: 'markdown-to-epub', name: 'Markdown to EPUB', description: 'Turn Markdown or plain text into a real, valid EPUB3 ebook.', category: 'data', path: '/data/markdown-to-epub', keywords: ['epub', 'ebook', 'markdown', 'book', 'kindle', 'kobo'], processing: 'client' },
 
   // Web
   { id: 'url-parser', name: 'URL Parser', description: 'Break a URL down into its parts and query params.', category: 'web', path: '/web/url-parser', keywords: ['url', 'parser', 'query', 'params'], processing: 'client' },
@@ -141,12 +142,12 @@ export const TOOLS: ToolMeta[] = [
 // arbitrary URL, HTTP header/status checks that hit CORS from the browser)
 // or a much heavier client integration that deserves its own careful pass
 // (a real WASM LaTeX engine).
-export const COMING_SOON: { name: string; category: ToolCategory }[] = [
-  { name: 'Protect / Unlock PDF', category: 'pdf' },
-  { name: 'Background Removal', category: 'images' },
-  { name: 'AI Document Tools', category: 'developer' },
-  { name: 'Webpage Screenshot / HTML to PDF', category: 'web' },
-  { name: 'HTTP Status & Header Checker', category: 'web' },
+export const COMING_SOON: { name: string; category: ToolCategory; reason?: string }[] = [
+  { name: 'Protect / Unlock PDF', category: 'pdf', reason: 'Needs real PDF encryption support, a separate backend build (like the LaTeX one).' },
+  { name: 'Background Removal', category: 'images', reason: 'Needs a real client-side segmentation model -- on the roadmap, not scoped yet.' },
+  { name: 'Webpage Screenshot / HTML to PDF', category: 'web', reason: 'Needs a real backend -- fetching an arbitrary URL is blocked by browser CORS from client-side JS.' },
+  { name: 'HTTP Status & Header Checker', category: 'web', reason: 'Same CORS limitation -- checking a third-party URL\'s headers needs a server to do the fetch.' },
+  { name: 'Translator', category: 'text', reason: 'Not currently planned: a real translator needs either a paid API (breaks free-forever) or a large, lower-quality client-side model. Open to it if that tradeoff ever makes sense.' },
 ]
 
 export function toolsByCategory(category: string): ToolMeta[] {
