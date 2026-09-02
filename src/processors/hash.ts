@@ -84,8 +84,3 @@ function md5(buffer: ArrayBuffer): string {
   return toHex(out.buffer)
 }
 
-/** Dev-time self-check against a known RFC 1321 test vector. */
-export function _md5SelfCheck(): boolean {
-  const result = md5(new TextEncoder().encode('abc').buffer)
-  return result === '900150983cd24fb0d6963f7d28e17f72'
-}

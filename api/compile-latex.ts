@@ -109,8 +109,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       ['--outdir', workDir, '--keep-logs', texPath],
       {
         cwd: workDir,
+        // Deliberately NOT `...process.env` -- the compiler never needs
+        // this function's environment (which could carry secrets for
+        // unrelated Vercel env vars), only PATH to find shared libs and
+        // the two vars it actually reads. Least privilege in case any
+        // LaTeX package ever finds a way to leak its own environment into
+        // the rendered PDF.
         env: {
-          ...process.env,
+          PATH: process.env.PATH,
           // Tectonic needs a writable cache for its TeX package bundle --
           // the function's own filesystem is read-only outside /tmp.
           TECTONIC_CACHE_DIR: cacheDir,
