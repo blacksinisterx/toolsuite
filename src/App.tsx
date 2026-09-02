@@ -19,6 +19,8 @@ const CompressPdf = lazy(() => import('./tools/pdf/CompressPdf'))
 const WatermarkPdf = lazy(() => import('./tools/pdf/WatermarkPdf'))
 const AddTextToPdf = lazy(() => import('./tools/pdf/AddTextToPdf'))
 const PageNumbers = lazy(() => import('./tools/pdf/PageNumbers'))
+const PdfToText = lazy(() => import('./tools/pdf/PdfToText'))
+const PdfMetadataRemover = lazy(() => import('./tools/pdf/PdfMetadataRemover'))
 
 const ImageConvert = lazy(() => import('./tools/images/ImageConvert'))
 const ImageResize = lazy(() => import('./tools/images/ImageResize'))
@@ -120,6 +122,8 @@ export default function App() {
             <Route path="/pdf/watermark" element={<WatermarkPdf />} />
             <Route path="/pdf/add-text" element={<AddTextToPdf />} />
             <Route path="/pdf/page-numbers" element={<PageNumbers />} />
+            <Route path="/pdf/to-text" element={<PdfToText />} />
+            <Route path="/pdf/remove-metadata" element={<PdfMetadataRemover />} />
 
             <Route path="/image/convert" element={<ImageConvert />} />
             <Route path="/image/resize" element={<ImageResize />} />

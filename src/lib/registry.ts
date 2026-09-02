@@ -35,6 +35,8 @@ export const TOOLS: ToolMeta[] = [
   { id: 'watermark-pdf', name: 'Add Watermark', description: 'Stamp text across every page of a PDF.', category: 'pdf', path: '/pdf/watermark', keywords: ['watermark', 'stamp', 'pdf'], processing: 'client' },
   { id: 'pdf-add-text', name: 'Add Text to PDF', description: 'Click anywhere on a page to place custom text.', category: 'pdf', path: '/pdf/add-text', keywords: ['add', 'text', 'edit', 'pdf'], processing: 'client' },
   { id: 'pdf-page-numbers', name: 'Page Numbers', description: 'Add page numbers in any position and format.', category: 'pdf', path: '/pdf/page-numbers', keywords: ['page', 'numbers', 'pdf'], processing: 'client' },
+  { id: 'pdf-to-text', name: 'PDF to Text', description: "Extract a PDF's real embedded text layer -- fast and exact, for PDFs that aren't scans.", category: 'pdf', path: '/pdf/to-text', keywords: ['pdf', 'text', 'extract', 'convert'], processing: 'client' },
+  { id: 'pdf-metadata-remover', name: 'Remove PDF Metadata', description: 'Strip title, author, subject and other metadata fields from a PDF.', category: 'pdf', path: '/pdf/remove-metadata', keywords: ['pdf', 'metadata', 'remove', 'privacy', 'strip', 'author'], processing: 'client' },
 
   // Images
   { id: 'image-convert', name: 'Image Converter', description: 'Convert between JPG, PNG and WebP.', category: 'images', path: '/image/convert', keywords: ['convert', 'jpg', 'png', 'webp', 'image', 'format'], processing: 'client' },

@@ -56,3 +56,21 @@ export async function pdfPagesToJpgBlobs(file: File, scale = 2): Promise<Blob[]>
     return blobs
   })
 }
+
+/** Pulls the real text layer out of a PDF via pdf.js's own text content API
+ * -- this only finds text a PDF actually embeds as text (fast, exact, no
+ * WASM model download). A scanned/image-only PDF has no text layer at all;
+ * that case is what the separate OCR tool (Tesseract.js) is for. */
+export async function extractPdfText(file: File): Promise<string> {
+  const bytes = await file.arrayBuffer()
+  return withPdf(bytes, async (pdf) => {
+    const pages: string[] = []
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i)
+      const content = await page.getTextContent()
+      const text = content.items.map((item) => ('str' in item ? item.str : '')).join(' ')
+      pages.push(text.trim())
+    }
+    return pages.join('\n\n')
+  })
+}

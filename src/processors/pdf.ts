@@ -18,6 +18,43 @@ export async function getPageCount(file: File): Promise<number> {
   return doc.getPageCount()
 }
 
+export interface PdfMetadata {
+  title: string
+  author: string
+  subject: string
+  keywords: string
+  producer: string
+  creator: string
+}
+
+export async function readPdfMetadata(file: File): Promise<PdfMetadata> {
+  const doc = await loadPdf(file)
+  return {
+    title: doc.getTitle() ?? '',
+    author: doc.getAuthor() ?? '',
+    subject: doc.getSubject() ?? '',
+    keywords: doc.getKeywords() ?? '',
+    producer: doc.getProducer() ?? '',
+    creator: doc.getCreator() ?? '',
+  }
+}
+
+/** Clears every standard metadata field pdf-lib exposes -- title, author,
+ * subject, keywords, producer, creator, and both timestamps -- and
+ * re-saves. Page content itself is untouched. */
+export async function removePdfMetadata(file: File): Promise<Blob> {
+  const doc = await loadPdf(file)
+  doc.setTitle('')
+  doc.setAuthor('')
+  doc.setSubject('')
+  doc.setKeywords([])
+  doc.setProducer('')
+  doc.setCreator('')
+  doc.setCreationDate(new Date(0))
+  doc.setModificationDate(new Date(0))
+  return pdfBlob(await doc.save())
+}
+
 export async function mergePdfs(files: File[]): Promise<Blob> {
   const out = await PDFDocument.create()
   for (const file of files) {
