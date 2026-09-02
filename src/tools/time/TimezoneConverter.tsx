@@ -4,7 +4,7 @@ import { Button } from '../../components/Button'
 import { WorldMap } from '../../components/WorldMap'
 import { labelCls, inputCls } from '../../components/formStyles'
 import { allTimeZones, formatInZone, zonedTimeToUtc, POPULAR_ZONES, type ZonedResult } from '../../lib/timezone'
-import { ZONE_COORDS, coordFor } from '../../lib/worldMap'
+import { coordFor } from '../../lib/worldMap'
 import { TOOLS } from '../../lib/registry'
 
 const tool = TOOLS.find((t) => t.id === 'timezone-converter')!
@@ -91,15 +91,11 @@ export default function TimezoneConverter() {
 
   const mapPins = useMemo(() => {
     const pins: { timeZone: string; lat: number; lon: number; label: string; time: string; isSource?: boolean }[] = []
-    if (sourceZone in ZONE_COORDS) {
-      const [lat, lon] = coordFor(sourceZone)
-      pins.push({ timeZone: sourceZone, lat, lon, label: sourceResult.label, time: sourceResult.time, isSource: true })
-    }
+    const src = coordFor(sourceZone)
+    if (src) pins.push({ timeZone: sourceZone, lat: src[0], lon: src[1], label: sourceResult.label, time: sourceResult.time, isSource: true })
     for (const { zone, result } of results) {
-      if (zone in ZONE_COORDS) {
-        const [lat, lon] = coordFor(zone)
-        pins.push({ timeZone: zone, lat, lon, label: result.label, time: result.time })
-      }
+      const c = coordFor(zone)
+      if (c) pins.push({ timeZone: zone, lat: c[0], lon: c[1], label: result.label, time: result.time })
     }
     return pins
   }, [sourceZone, sourceResult, results])
@@ -107,11 +103,6 @@ export default function TimezoneConverter() {
   return (
     <ToolLayout tool={tool}>
       <WorldMap pins={mapPins} now={instant} />
-      {mapPins.length < 1 + results.length && (
-        <p className="text-xs text-text-faint">
-          The map only plots cities from the popular list -- some added timezones won't have a pin yet.
-        </p>
-      )}
 
       <div className="rounded-xl border border-border bg-bg-sunken p-4">
         <p className={labelCls}>From</p>

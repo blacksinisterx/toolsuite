@@ -26,30 +26,34 @@ that briefly touches a server.
 
 ## What's built
 
-83 fully working tools, all client-side unless noted:
+88 fully working tools, all client-side unless noted:
 
 - **PDF** — Merge, Split, Extract Pages, Delete Pages, Rotate, Reorder (drag-and-drop),
   JPG/PNG → PDF, PDF → JPG, Compress, Watermark, PDF Annotator (text/highlight/rectangle, any
   number of edits, one download), Page Numbers, PDF to Text (real text-layer extraction),
   Remove PDF Metadata
-- **Images** — Convert (JPG/PNG/WebP), Resize, Crop, Compress, Rotate, Remove Metadata
+- **Images** — Convert (JPG/PNG/WebP), Resize, Crop, Compress, Rotate, Remove Metadata,
+  Image ⇄ Base64 (data URI)
 - **Developer** — JSON Formatter, JSON ⇄ CSV, JSON ⇄ YAML, JSON ⇄ XML, Base64, URL Encode/Decode,
   Hash Generator (MD5/SHA-1/256/512), JWT Decoder, UUID Generator, Regex Tester, SQL Formatter,
   HTML/CSS/JS Formatter
 - **Text** — Word Counter, Case Converter, Text Diff, Markdown Editor, Text Cleaner (dedupe/trim),
-  Lorem Ipsum Generator
+  Lorem Ipsum Generator, URL Slug Generator
 - **Utilities** — QR Generator, QR Scanner, Color Converter, Color Palette Generator,
   Gradient Generator, Favicon Generator, Password Generator, Scientific Calculator,
   Unit Converter, Percentage Calculator, Number Base Converter, Date & Time Calculator,
-  Random Number Generator, Symbols & Characters (click-to-copy arrows/math/currency/punctuation)
+  Random Number Generator, Symbols & Characters (click-to-copy arrows/math/currency/punctuation),
+  Tip Calculator, Color Contrast Checker (WCAG AA/AAA)
 - **File Analyzer** — type, size, hash, and format-specific metadata for any file
 - **OCR** — Image to Text, PDF to Text (real WASM OCR via Tesseract.js)
 - **Archives** — Create ZIP, Extract ZIP
 - **Data** — CSV Viewer, CSV Cleaner, CSV ⇄ Excel, JSON Tree Viewer, Markdown to EPUB, EPUB to PDF,
   PDF to EPUB (all real, spec-valid EPUB3 -- text only, original CSS/images aren't carried over)
 - **Time & Timezones** — Timezone Converter: DST-aware (the browser's own Intl database, not a
-  hand-maintained offset table) with a visual world map (day/night shading, city pins) and a
-  plain-language time calculator ("3pm Saturday in Karachi is what time in Sydney")
+  hand-maintained offset table) with a visual world map (graticule, day/night shading, and an
+  accurate pin for every one of the ~420 real IANA zones the browser offers -- not just a handful
+  of popular cities) and a plain-language time calculator ("3pm Saturday in Karachi is what time
+  in Sydney")
 - **Baking & Recipes** — Baking Converter: ingredient-aware weight/volume conversion (a cup of
   flour and a cup of sugar don't weigh the same) plus oven temperature (°C/°F/gas mark)
 - **Web** — URL Parser, UTM Builder/Cleaner, Open Graph Generator, Robots.txt Generator,

@@ -47,6 +47,8 @@ export const TOOLS: ToolMeta[] = [
   { id: 'image-compress', name: 'Compress Image', description: 'Reduce image file size with an adjustable quality slider.', category: 'images', path: '/image/compress', keywords: ['compress', 'reduce', 'image', 'quality'], processing: 'client' },
   { id: 'image-rotate', name: 'Rotate Image', description: 'Rotate or flip an image.', category: 'images', path: '/image/rotate', keywords: ['rotate', 'flip', 'image', 'turn'], processing: 'client' },
   { id: 'image-metadata', name: 'Remove Image Metadata', description: 'Strip EXIF, GPS and camera data from a photo.', category: 'images', path: '/image/remove-metadata', keywords: ['exif', 'metadata', 'gps', 'privacy', 'remove', 'image'], processing: 'client' },
+  { id: 'image-to-base64', name: 'Image to Base64', description: 'Convert an image to a data: URI you can paste directly into CSS or HTML.', category: 'images', path: '/image/to-base64', keywords: ['base64', 'data uri', 'image', 'encode', 'css'], processing: 'client' },
+  { id: 'base64-to-image', name: 'Base64 to Image', description: 'Decode a base64 data URI back into a downloadable image.', category: 'images', path: '/image/from-base64', keywords: ['base64', 'data uri', 'image', 'decode'], processing: 'client' },
 
   // Developer
   { id: 'json-formatter', name: 'JSON Formatter', description: 'Format, validate and minify JSON.', category: 'developer', path: '/developer/json-formatter', keywords: ['json', 'format', 'validate', 'beautify', 'minify'], processing: 'client' },
@@ -69,6 +71,7 @@ export const TOOLS: ToolMeta[] = [
   { id: 'markdown-editor', name: 'Markdown Editor', description: 'Write Markdown with a live rendered preview.', category: 'text', path: '/text/markdown-editor', keywords: ['markdown', 'editor', 'preview', 'md'], processing: 'client' },
   { id: 'text-cleaner', name: 'Text Cleaner', description: 'Remove duplicate lines, trim whitespace, and drop empty lines.', category: 'text', path: '/text/cleaner', keywords: ['remove', 'duplicate', 'lines', 'whitespace', 'trim', 'clean'], processing: 'client' },
   { id: 'lorem-ipsum', name: 'Lorem Ipsum Generator', description: 'Generate placeholder text by paragraphs, sentences or words.', category: 'text', path: '/text/lorem-ipsum', keywords: ['lorem', 'ipsum', 'placeholder', 'dummy text', 'generator'], processing: 'client' },
+  { id: 'slug-generator', name: 'URL Slug Generator', description: 'Turn any text into a clean, URL-safe slug.', category: 'text', path: '/text/slug', keywords: ['slug', 'url', 'seo', 'permalink', 'kebab-case', 'snake_case'], processing: 'client' },
 
   // Utilities
   { id: 'qr-generator', name: 'QR Generator', description: 'Create a QR code for a link, text or Wi-Fi network.', category: 'utilities', path: '/utilities/qr-generator', keywords: ['qr', 'code', 'generator', 'barcode'], processing: 'client' },
@@ -80,6 +83,8 @@ export const TOOLS: ToolMeta[] = [
   { id: 'base-converter', name: 'Number Base Converter', description: 'Convert a number between binary, octal, decimal and hexadecimal.', category: 'utilities', path: '/utilities/base-converter', keywords: ['base', 'binary', 'octal', 'decimal', 'hex', 'hexadecimal', 'converter', 'math'], processing: 'client' },
   { id: 'date-calculator', name: 'Date & Time Calculator', description: 'Find the days between two dates, or add/subtract time from a date.', category: 'utilities', path: '/utilities/date-calculator', keywords: ['date', 'time', 'calculator', 'days between', 'add', 'subtract'], processing: 'client' },
   { id: 'random-number-generator', name: 'Random Number Generator', description: 'Generate one or many random numbers in a range, with an optional no-duplicates mode.', category: 'utilities', path: '/utilities/random-number-generator', keywords: ['random', 'number', 'generator', 'rng'], processing: 'client' },
+  { id: 'tip-calculator', name: 'Tip Calculator', description: 'Split a bill with tip across any number of people.', category: 'utilities', path: '/utilities/tip-calculator', keywords: ['tip', 'bill', 'split', 'calculator', 'restaurant', 'gratuity'], processing: 'client' },
+  { id: 'contrast-checker', name: 'Color Contrast Checker', description: 'Check two colors against WCAG AA/AAA contrast requirements.', category: 'utilities', path: '/utilities/contrast-checker', keywords: ['contrast', 'accessibility', 'wcag', 'a11y', 'color', 'checker'], processing: 'client' },
   { id: 'symbol-picker', name: 'Symbols & Characters', description: 'Browse and copy arrows, punctuation, math and other special characters.', category: 'utilities', path: '/utilities/symbols', keywords: ['symbols', 'characters', 'arrows', 'unicode', 'special characters', 'copy paste'], processing: 'client' },
   { id: 'qr-scanner', name: 'QR Scanner', description: 'Decode a QR code from an uploaded photo or screenshot.', category: 'utilities', path: '/utilities/qr-scanner', keywords: ['qr', 'scanner', 'decode', 'read', 'barcode'], processing: 'client' },
   { id: 'favicon-generator', name: 'Favicon Generator', description: 'Generate a full set of favicon PNG sizes from one image.', category: 'utilities', path: '/utilities/favicon-generator', keywords: ['favicon', 'generator', 'icon', 'ico'], processing: 'client' },
@@ -162,7 +167,14 @@ export function toolsByCategory(category: string): ToolMeta[] {
   return TOOLS.filter((t) => t.category === category)
 }
 
+// One tool per category -- every section gets a seat here, not just the
+// tools someone happened to reach for first.
 export function popularTools(): ToolMeta[] {
-  const ids = ['merge-pdf', 'compress-pdf', 'jpg-to-pdf', 'image-convert', 'image-compress', 'json-formatter', 'word-counter', 'qr-generator', 'password-generator', 'file-analyzer']
+  const ids = [
+    'merge-pdf', 'image-convert', 'json-formatter', 'word-counter', 'qr-generator',
+    'file-analyzer', 'image-to-text', 'create-zip', 'csv-viewer', 'url-parser',
+    'video-convert', 'audio-convert', 'latex-workspace', 'sensitive-data-scanner',
+    'timezone-converter', 'baking-converter',
+  ]
   return ids.map((id) => TOOLS.find((t) => t.id === id)!).filter(Boolean)
 }

@@ -30,6 +30,8 @@ const ImageCrop = lazy(() => import('./tools/images/ImageCrop'))
 const ImageCompress = lazy(() => import('./tools/images/ImageCompress'))
 const ImageRotate = lazy(() => import('./tools/images/ImageRotate'))
 const ImageMetadataRemover = lazy(() => import('./tools/images/ImageMetadataRemover'))
+const ImageToBase64 = lazy(() => import('./tools/images/ImageToBase64'))
+const Base64ToImage = lazy(() => import('./tools/images/Base64ToImage'))
 
 const JsonFormatter = lazy(() => import('./tools/developer/JsonFormatter'))
 const JsonCsv = lazy(() => import('./tools/developer/JsonCsv'))
@@ -50,6 +52,7 @@ const TextDiff = lazy(() => import('./tools/text/TextDiff'))
 const MarkdownEditor = lazy(() => import('./tools/text/MarkdownEditor'))
 const TextCleaner = lazy(() => import('./tools/text/TextCleaner'))
 const LoremIpsum = lazy(() => import('./tools/text/LoremIpsum'))
+const SlugGenerator = lazy(() => import('./tools/text/SlugGenerator'))
 
 const QrGenerator = lazy(() => import('./tools/utilities/QrGenerator'))
 const ColorConverter = lazy(() => import('./tools/utilities/ColorConverter'))
@@ -60,6 +63,8 @@ const PercentageCalculator = lazy(() => import('./tools/utilities/PercentageCalc
 const BaseConverter = lazy(() => import('./tools/utilities/BaseConverter'))
 const DateCalculator = lazy(() => import('./tools/utilities/DateCalculator'))
 const RandomNumberGenerator = lazy(() => import('./tools/utilities/RandomNumberGenerator'))
+const TipCalculator = lazy(() => import('./tools/utilities/TipCalculator'))
+const ContrastChecker = lazy(() => import('./tools/utilities/ContrastChecker'))
 const TimezoneConverter = lazy(() => import('./tools/time/TimezoneConverter'))
 const BakingConverter = lazy(() => import('./tools/baking/BakingConverter'))
 const SymbolPicker = lazy(() => import('./tools/utilities/SymbolPicker'))
@@ -141,6 +146,8 @@ export default function App() {
             <Route path="/image/compress" element={<ImageCompress />} />
             <Route path="/image/rotate" element={<ImageRotate />} />
             <Route path="/image/remove-metadata" element={<ImageMetadataRemover />} />
+            <Route path="/image/to-base64" element={<ImageToBase64 />} />
+            <Route path="/image/from-base64" element={<Base64ToImage />} />
 
             <Route path="/developer/json-formatter" element={<JsonFormatter />} />
             <Route path="/developer/json-csv" element={<JsonCsv />} />
@@ -161,6 +168,7 @@ export default function App() {
             <Route path="/text/markdown-editor" element={<MarkdownEditor />} />
             <Route path="/text/cleaner" element={<TextCleaner />} />
             <Route path="/text/lorem-ipsum" element={<LoremIpsum />} />
+            <Route path="/text/slug" element={<SlugGenerator />} />
 
             <Route path="/utilities/qr-generator" element={<QrGenerator />} />
             <Route path="/utilities/color-converter" element={<ColorConverter />} />
@@ -171,6 +179,8 @@ export default function App() {
             <Route path="/utilities/base-converter" element={<BaseConverter />} />
             <Route path="/utilities/date-calculator" element={<DateCalculator />} />
             <Route path="/utilities/random-number-generator" element={<RandomNumberGenerator />} />
+            <Route path="/utilities/tip-calculator" element={<TipCalculator />} />
+            <Route path="/utilities/contrast-checker" element={<ContrastChecker />} />
             <Route path="/time/timezone-converter" element={<TimezoneConverter />} />
             <Route path="/baking/converter" element={<BakingConverter />} />
             <Route path="/utilities/symbols" element={<SymbolPicker />} />

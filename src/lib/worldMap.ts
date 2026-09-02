@@ -18,38 +18,39 @@ export const CONTINENTS: [number, number][][] = [
   [[-11, 131], [-17, 146], [-38, 147], [-35, 117], [-20, 114]],
   // Greenland
   [[83, -35], [77, -20], [60, -45], [70, -55]],
+  // Japan
+  [[45, 142], [43, 146], [35, 140], [31, 131], [33, 130], [38, 141]],
+  // British Isles (UK + Ireland, combined for scale)
+  [[59, -3], [54, -3], [51, -9], [50, -5], [52, 1], [58, -3]],
+  // Madagascar
+  [[-12, 49], [-25, 47], [-25, 44], [-15, 43]],
+  // New Zealand
+  [[-34, 173], [-41, 175], [-46, 168], [-44, 166], [-40, 174]],
+  // Indonesia (Sumatra/Java hint)
+  [[-6, 95], [-8, 115], [-3, 119], [3, 98]],
+  // Philippines
+  [[19, 121], [14, 121], [9, 123], [13, 125]],
+  // Iceland
+  [[66, -24], [65, -14], [63, -20]],
 ]
+
+/** 30-degree lat/long graticule, for the "this is a map" cue -- the
+ * continents alone read as an abstract blob without reference lines. */
+export const GRATICULE_LATS = [-60, -30, 0, 30, 60]
+export const GRATICULE_LONS = [-150, -120, -90, -60, -30, 0, 30, 60, 90, 120, 150]
 
 export interface CityCoord { timeZone: string; lat: number; lon: number }
 
-// Approximate coordinates for the popular-zone list (city the zone is
-// named for, or its capital when the zone covers a whole country-ish area).
-export const ZONE_COORDS: Record<string, [number, number]> = {
-  'Asia/Karachi': [24.86, 67.01],
-  'Asia/Kolkata': [28.61, 77.21],
-  'Asia/Dubai': [25.2, 55.27],
-  'Asia/Dhaka': [23.81, 90.41],
-  'Asia/Shanghai': [31.23, 121.47],
-  'Asia/Tokyo': [35.68, 139.69],
-  'Asia/Jakarta': [-6.21, 106.85],
-  'Europe/London': [51.51, -0.13],
-  'Europe/Paris': [48.85, 2.35],
-  'Europe/Berlin': [52.52, 13.4],
-  'Europe/Moscow': [55.76, 37.62],
-  'Africa/Cairo': [30.04, 31.24],
-  'America/New_York': [40.71, -74.01],
-  'America/Chicago': [41.88, -87.63],
-  'America/Denver': [39.74, -104.99],
-  'America/Los_Angeles': [34.05, -118.24],
-  'America/Sao_Paulo': [-23.55, -46.63],
-  'Australia/Sydney': [-33.87, 151.21],
-  'Australia/Perth': [-31.95, 115.86],
-  'Pacific/Auckland': [-36.85, 174.76],
-  UTC: [51.48, 0],
-}
+export { ZONE_COORDS } from './zoneCoords'
+import { ZONE_COORDS } from './zoneCoords'
 
-export function coordFor(timeZone: string): [number, number] {
-  return ZONE_COORDS[timeZone] ?? [0, 0]
+/** Falls back to parsing the zone name itself (e.g. "Some_Region/A_City"
+ * -> "A City") only to report "unknown" honestly -- callers use the null
+ * to skip the pin rather than plotting a wrong guess at (0,0). Every zone
+ * this app actually offers has a real entry in ZONE_COORDS, so this path
+ * is normally unreachable; it's a safety net, not a first resort. */
+export function coordFor(timeZone: string): [number, number] | null {
+  return ZONE_COORDS[timeZone] ?? null
 }
 
 export function project(lat: number, lon: number, w: number, h: number): [number, number] {
