@@ -225,3 +225,70 @@ export async function addPageNumbers(file: File, position: NumberPosition, forma
   const bytes = await doc.save()
   return pdfBlob(bytes)
 }
+
+function wrapLine(text: string, font: Awaited<ReturnType<PDFDocument['embedFont']>>, size: number, maxWidth: number): string[] {
+  const words = text.split(' ')
+  const lines: string[] = []
+  let line = ''
+  for (const word of words) {
+    const candidate = line ? `${line} ${word}` : word
+    if (font.widthOfTextAtSize(candidate, size) > maxWidth && line) {
+      lines.push(line)
+      line = word
+    } else {
+      line = candidate
+    }
+  }
+  if (line) lines.push(line)
+  return lines
+}
+
+/** Real, paginated text -> PDF -- used for EPUB to PDF. Text-only (no
+ * original CSS/images carried over); a pixel-faithful EPUB render would
+ * need a real layout engine, a much bigger, separate tool. */
+export async function textChaptersToPdf(chapters: string[], title: string): Promise<Blob> {
+  const doc = await PDFDocument.create()
+  doc.setTitle(title)
+  const font = await doc.embedFont(StandardFonts.Helvetica)
+  const boldFont = await doc.embedFont(StandardFonts.HelveticaBold)
+  const pageWidth = 612 // US Letter
+  const pageHeight = 792
+  const margin = 56
+  const bodySize = 11
+  const lineHeight = bodySize * 1.4
+  const maxWidth = pageWidth - margin * 2
+
+  let page = doc.addPage([pageWidth, pageHeight])
+  let y = pageHeight - margin
+
+  function newPage() {
+    page = doc.addPage([pageWidth, pageHeight])
+    y = pageHeight - margin
+  }
+  function ensureRoom(needed: number) {
+    if (y - needed < margin) newPage()
+  }
+
+  page.drawText(title, { x: margin, y, size: 20, font: boldFont, color: rgb(0.05, 0.05, 0.05) })
+  y -= 34
+
+  chapters.forEach((chapter, i) => {
+    if (chapters.length > 1) {
+      ensureRoom(lineHeight * 2)
+      page.drawText(`Chapter ${i + 1}`, { x: margin, y, size: 14, font: boldFont, color: rgb(0.1, 0.1, 0.1) })
+      y -= lineHeight * 1.8
+    }
+    for (const para of chapter.split(/\n{2,}/)) {
+      const lines = wrapLine(para.replace(/\n/g, ' '), font, bodySize, maxWidth)
+      for (const line of lines) {
+        ensureRoom(lineHeight)
+        page.drawText(line, { x: margin, y, size: bodySize, font, color: rgb(0.15, 0.15, 0.15) })
+        y -= lineHeight
+      }
+      y -= lineHeight * 0.5 // paragraph gap
+    }
+  })
+
+  const bytes = await doc.save()
+  return pdfBlob(bytes)
+}

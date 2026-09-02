@@ -44,6 +44,15 @@ export function RootLayout() {
         )}
 
         <div className="ml-auto flex items-center gap-2">
+          <Link
+            to="/suggest"
+            className="hidden items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-text-muted hover:border-accent hover:text-accent sm:flex"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            </svg>
+            Suggest a tool
+          </Link>
           <ThemeToggle />
         </div>
       </header>
@@ -84,7 +93,10 @@ export function RootLayout() {
 
       <footer className="flex flex-col items-center gap-2 border-t border-border px-6 py-5 text-center text-xs text-text-faint">
         <p>Your files stay yours — processed temporarily and never kept in a permanent library.</p>
-        <Link to="/suggest" className="text-accent hover:underline">Missing a tool? Suggest one →</Link>
+        <div className="flex gap-4">
+          <Link to="/suggest" className="text-accent hover:underline">Missing a tool? Suggest one →</Link>
+          <Link to="/roadmap" className="hover:text-text hover:underline">What's coming next</Link>
+        </div>
       </footer>
     </div>
   )

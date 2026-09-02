@@ -26,7 +26,7 @@ that briefly touches a server.
 
 ## What's built
 
-81 fully working tools, all client-side unless noted:
+83 fully working tools, all client-side unless noted:
 
 - **PDF** — Merge, Split, Extract Pages, Delete Pages, Rotate, Reorder (drag-and-drop),
   JPG/PNG → PDF, PDF → JPG, Compress, Watermark, PDF Annotator (text/highlight/rectangle, any
@@ -41,14 +41,17 @@ that briefly touches a server.
 - **Utilities** — QR Generator, QR Scanner, Color Converter, Color Palette Generator,
   Gradient Generator, Favicon Generator, Password Generator, Scientific Calculator,
   Unit Converter, Percentage Calculator, Number Base Converter, Date & Time Calculator,
-  Random Number Generator, Timezone Converter (DST-aware, via the browser's own Intl database),
-  Baking Converter (ingredient-aware weight/volume + oven temps), Symbols & Characters
-  (click-to-copy arrows/math/currency/punctuation)
+  Random Number Generator, Symbols & Characters (click-to-copy arrows/math/currency/punctuation)
 - **File Analyzer** — type, size, hash, and format-specific metadata for any file
 - **OCR** — Image to Text, PDF to Text (real WASM OCR via Tesseract.js)
 - **Archives** — Create ZIP, Extract ZIP
-- **Data** — CSV Viewer, CSV Cleaner, CSV ⇄ Excel, JSON Tree Viewer, Markdown to EPUB (real,
-  spec-valid EPUB3)
+- **Data** — CSV Viewer, CSV Cleaner, CSV ⇄ Excel, JSON Tree Viewer, Markdown to EPUB, EPUB to PDF,
+  PDF to EPUB (all real, spec-valid EPUB3 -- text only, original CSS/images aren't carried over)
+- **Time & Timezones** — Timezone Converter: DST-aware (the browser's own Intl database, not a
+  hand-maintained offset table) with a visual world map (day/night shading, city pins) and a
+  plain-language time calculator ("3pm Saturday in Karachi is what time in Sydney")
+- **Baking & Recipes** — Baking Converter: ingredient-aware weight/volume conversion (a cup of
+  flour and a cup of sugar don't weigh the same) plus oven temperature (°C/°F/gas mark)
 - **Web** — URL Parser, UTM Builder/Cleaner, Open Graph Generator, Robots.txt Generator,
   Sitemap Generator
 - **Video** — Converter (MP4/WebM/MOV/AVI/MKV), Compressor, Trimmer, Video → GIF, Extract Audio,
@@ -61,7 +64,8 @@ that briefly touches a server.
   below)
 
 Missing something? [Suggest a tool](https://multitoolsuite.vercel.app/suggest) — no account needed,
-opens a pre-filled GitHub issue on this repo.
+opens a pre-filled GitHub issue on this repo. See what's already planned on the
+[Roadmap](https://multitoolsuite.vercel.app/roadmap), with the real reason each item isn't built yet.
 
 Plus: global search, category browsing, light/dark theme, responsive layout, and a shared
 component architecture so new tools are cheap to add.
@@ -167,6 +171,7 @@ src/
   tools/          # one file per tool, grouped by category
     pdf/  images/  developer/  text/  utilities/  analyzer/
     ocr/  archives/  data/  web/  video/  audio/  latex/  privacy/
+    time/  baking/
   processors/     # the actual file-processing logic (pdf.ts, image.ts, hash.ts, csv.ts,
                    # ocr.ts, archive.ts, spreadsheet.ts, pdfRender.ts, ffmpeg.ts, latex.ts)
   lib/            # registry (tool metadata), search, small utilities (color, calc, piiScan, ...)

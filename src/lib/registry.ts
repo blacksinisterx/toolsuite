@@ -15,6 +15,8 @@ export const CATEGORIES: CategoryMeta[] = [
   { id: 'audio', label: 'Audio', description: 'Convert, trim and adjust audio' },
   { id: 'latex', label: 'LaTeX', description: 'Write and compile real LaTeX documents' },
   { id: 'privacy', label: 'Privacy', description: 'Scan text and files for sensitive data before you share them' },
+  { id: 'time', label: 'Time & Timezones', description: 'Convert times across cities, DST-aware, with a world map' },
+  { id: 'baking', label: 'Baking & Recipes', description: 'Convert recipe measurements and oven temperatures' },
 ]
 
 // Every tool here is fully working and 100% client-side (Phase 1 scope).
@@ -78,8 +80,6 @@ export const TOOLS: ToolMeta[] = [
   { id: 'base-converter', name: 'Number Base Converter', description: 'Convert a number between binary, octal, decimal and hexadecimal.', category: 'utilities', path: '/utilities/base-converter', keywords: ['base', 'binary', 'octal', 'decimal', 'hex', 'hexadecimal', 'converter', 'math'], processing: 'client' },
   { id: 'date-calculator', name: 'Date & Time Calculator', description: 'Find the days between two dates, or add/subtract time from a date.', category: 'utilities', path: '/utilities/date-calculator', keywords: ['date', 'time', 'calculator', 'days between', 'add', 'subtract'], processing: 'client' },
   { id: 'random-number-generator', name: 'Random Number Generator', description: 'Generate one or many random numbers in a range, with an optional no-duplicates mode.', category: 'utilities', path: '/utilities/random-number-generator', keywords: ['random', 'number', 'generator', 'rng'], processing: 'client' },
-  { id: 'timezone-converter', name: 'Timezone Converter', description: 'Convert a date and time between cities and timezones, DST-aware.', category: 'utilities', path: '/utilities/timezone-converter', keywords: ['timezone', 'time zone', 'converter', 'world clock', 'pakistan', 'utc', 'dst'], processing: 'client' },
-  { id: 'baking-converter', name: 'Baking Converter', description: 'Convert common recipe measurements -- cups, grams, ounces, spoons, oven temperature.', category: 'utilities', path: '/utilities/baking-converter', keywords: ['baking', 'recipe', 'cooking', 'cups', 'grams', 'ounces', 'oven', 'converter'], processing: 'client' },
   { id: 'symbol-picker', name: 'Symbols & Characters', description: 'Browse and copy arrows, punctuation, math and other special characters.', category: 'utilities', path: '/utilities/symbols', keywords: ['symbols', 'characters', 'arrows', 'unicode', 'special characters', 'copy paste'], processing: 'client' },
   { id: 'qr-scanner', name: 'QR Scanner', description: 'Decode a QR code from an uploaded photo or screenshot.', category: 'utilities', path: '/utilities/qr-scanner', keywords: ['qr', 'scanner', 'decode', 'read', 'barcode'], processing: 'client' },
   { id: 'favicon-generator', name: 'Favicon Generator', description: 'Generate a full set of favicon PNG sizes from one image.', category: 'utilities', path: '/utilities/favicon-generator', keywords: ['favicon', 'generator', 'icon', 'ico'], processing: 'client' },
@@ -103,6 +103,8 @@ export const TOOLS: ToolMeta[] = [
   { id: 'csv-excel', name: 'CSV ⇄ Excel', description: 'Convert between CSV and Excel (.xlsx).', category: 'data', path: '/data/csv-excel', keywords: ['csv', 'excel', 'xlsx', 'convert', 'spreadsheet'], processing: 'client' },
   { id: 'json-tree-viewer', name: 'JSON Tree Viewer', description: 'Browse JSON as a collapsible tree.', category: 'data', path: '/data/json-tree-viewer', keywords: ['json', 'tree', 'viewer', 'explorer'], processing: 'client' },
   { id: 'markdown-to-epub', name: 'Markdown to EPUB', description: 'Turn Markdown or plain text into a real, valid EPUB3 ebook.', category: 'data', path: '/data/markdown-to-epub', keywords: ['epub', 'ebook', 'markdown', 'book', 'kindle', 'kobo'], processing: 'client' },
+  { id: 'epub-to-pdf', name: 'EPUB to PDF', description: "Convert an EPUB's real chapters, in order, into a paginated PDF (text only).", category: 'data', path: '/data/epub-to-pdf', keywords: ['epub', 'pdf', 'ebook', 'convert', 'kindle'], processing: 'client' },
+  { id: 'pdf-to-epub', name: 'PDF to EPUB', description: "Extract a PDF's text layer into a single-chapter EPUB3 ebook.", category: 'data', path: '/data/pdf-to-epub', keywords: ['pdf', 'epub', 'ebook', 'convert'], processing: 'client' },
 
   // Web
   { id: 'url-parser', name: 'URL Parser', description: 'Break a URL down into its parts and query params.', category: 'web', path: '/web/url-parser', keywords: ['url', 'parser', 'query', 'params'], processing: 'client' },
@@ -134,6 +136,12 @@ export const TOOLS: ToolMeta[] = [
 
   // Privacy
   { id: 'sensitive-data-scanner', name: 'Sensitive Data Scanner', description: 'Scan text for emails, phone numbers, card numbers, keys and other PII before you share it.', category: 'privacy', path: '/privacy/sensitive-data-scanner', keywords: ['pii', 'privacy', 'scan', 'sensitive', 'redact', 'email', 'credit card', 'ssn'], processing: 'client' },
+
+  // Time & Timezones
+  { id: 'timezone-converter', name: 'Timezone Converter', description: 'Convert a date and time between cities, DST-aware, with a visual world map.', category: 'time', path: '/time/timezone-converter', keywords: ['timezone', 'time zone', 'converter', 'world clock', 'pakistan', 'utc', 'dst', 'map'], processing: 'client' },
+
+  // Baking & Recipes
+  { id: 'baking-converter', name: 'Baking Converter', description: 'Convert common recipe measurements -- cups, grams, ounces, spoons, oven temperature.', category: 'baking', path: '/baking/converter', keywords: ['baking', 'recipe', 'cooking', 'cups', 'grams', 'ounces', 'oven', 'converter'], processing: 'client' },
 ]
 
 // Named in the spec but deliberately not built yet -- surfaced honestly in

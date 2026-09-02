@@ -18,6 +18,8 @@ export const CATEGORY_VAR: Record<ToolCategory, string> = {
   audio: '--cat-audio',
   latex: '--cat-latex',
   privacy: '--cat-privacy',
+  time: '--cat-time',
+  baking: '--cat-baking',
 }
 
 export function categoryColor(category: ToolCategory): string {

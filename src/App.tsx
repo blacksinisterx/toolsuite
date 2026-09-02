@@ -4,6 +4,7 @@ import { RootLayout } from './components/RootLayout'
 import HomePage from './pages/HomePage'
 import CategoryPage from './pages/CategoryPage'
 import SuggestPage from './pages/SuggestPage'
+import RoadmapPage from './pages/RoadmapPage'
 
 // Every tool is lazy-loaded -- the homepage never pulls in pdf-lib,
 // pdfjs-dist, qrcode, marked etc. up front (Performance principle: don't
@@ -59,8 +60,8 @@ const PercentageCalculator = lazy(() => import('./tools/utilities/PercentageCalc
 const BaseConverter = lazy(() => import('./tools/utilities/BaseConverter'))
 const DateCalculator = lazy(() => import('./tools/utilities/DateCalculator'))
 const RandomNumberGenerator = lazy(() => import('./tools/utilities/RandomNumberGenerator'))
-const TimezoneConverter = lazy(() => import('./tools/utilities/TimezoneConverter'))
-const BakingConverter = lazy(() => import('./tools/utilities/BakingConverter'))
+const TimezoneConverter = lazy(() => import('./tools/time/TimezoneConverter'))
+const BakingConverter = lazy(() => import('./tools/baking/BakingConverter'))
 const SymbolPicker = lazy(() => import('./tools/utilities/SymbolPicker'))
 const QrScanner = lazy(() => import('./tools/utilities/QrScanner'))
 const FaviconGenerator = lazy(() => import('./tools/utilities/FaviconGenerator'))
@@ -80,6 +81,8 @@ const CsvCleaner = lazy(() => import('./tools/data/CsvCleaner'))
 const CsvExcel = lazy(() => import('./tools/data/CsvExcel'))
 const JsonTreeViewer = lazy(() => import('./tools/data/JsonTreeViewer'))
 const MarkdownToEpub = lazy(() => import('./tools/data/MarkdownToEpub'))
+const EpubToPdf = lazy(() => import('./tools/data/EpubToPdf'))
+const PdfToEpub = lazy(() => import('./tools/data/PdfToEpub'))
 
 const VideoConvert = lazy(() => import('./tools/video/VideoConvert'))
 const VideoCompress = lazy(() => import('./tools/video/VideoCompress'))
@@ -115,6 +118,7 @@ export default function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/category/:category" element={<CategoryPage />} />
             <Route path="/suggest" element={<SuggestPage />} />
+            <Route path="/roadmap" element={<RoadmapPage />} />
 
             <Route path="/pdf/merge" element={<MergePdf />} />
             <Route path="/pdf/split" element={<SplitPdf />} />
@@ -167,8 +171,8 @@ export default function App() {
             <Route path="/utilities/base-converter" element={<BaseConverter />} />
             <Route path="/utilities/date-calculator" element={<DateCalculator />} />
             <Route path="/utilities/random-number-generator" element={<RandomNumberGenerator />} />
-            <Route path="/utilities/timezone-converter" element={<TimezoneConverter />} />
-            <Route path="/utilities/baking-converter" element={<BakingConverter />} />
+            <Route path="/time/timezone-converter" element={<TimezoneConverter />} />
+            <Route path="/baking/converter" element={<BakingConverter />} />
             <Route path="/utilities/symbols" element={<SymbolPicker />} />
             <Route path="/utilities/qr-scanner" element={<QrScanner />} />
             <Route path="/utilities/favicon-generator" element={<FaviconGenerator />} />
@@ -188,6 +192,8 @@ export default function App() {
             <Route path="/data/csv-excel" element={<CsvExcel />} />
             <Route path="/data/json-tree-viewer" element={<JsonTreeViewer />} />
             <Route path="/data/markdown-to-epub" element={<MarkdownToEpub />} />
+            <Route path="/data/epub-to-pdf" element={<EpubToPdf />} />
+            <Route path="/data/pdf-to-epub" element={<PdfToEpub />} />
 
             <Route path="/web/url-parser" element={<UrlParser />} />
             <Route path="/web/utm-builder" element={<UtmBuilder />} />

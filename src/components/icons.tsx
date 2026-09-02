@@ -119,6 +119,25 @@ export function PrivacyIcon() {
   )
 }
 
+export function TimeIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" {...stroke} aria-hidden="true">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v5l3.5 2" />
+    </svg>
+  )
+}
+
+export function BakingIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" {...stroke} aria-hidden="true">
+      <path d="M4 13a8 8 0 0 1 16 0" />
+      <path d="M3 13h18v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3Z" />
+      <path d="M9 13V7m6 6V7" />
+    </svg>
+  )
+}
+
 export const CATEGORY_ICONS: Record<ToolCategory, () => ReactElement> = {
   pdf: PdfIcon,
   images: ImageIcon,
@@ -134,4 +153,6 @@ export const CATEGORY_ICONS: Record<ToolCategory, () => ReactElement> = {
   audio: AudioIcon,
   latex: LatexIcon,
   privacy: PrivacyIcon,
+  time: TimeIcon,
+  baking: BakingIcon,
 }

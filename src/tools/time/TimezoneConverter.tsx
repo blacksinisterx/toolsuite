@@ -1,8 +1,10 @@
 import { useMemo, useState } from 'react'
 import { ToolLayout } from '../../components/ToolLayout'
 import { Button } from '../../components/Button'
+import { WorldMap } from '../../components/WorldMap'
 import { labelCls, inputCls } from '../../components/formStyles'
 import { allTimeZones, formatInZone, zonedTimeToUtc, POPULAR_ZONES, type ZonedResult } from '../../lib/timezone'
+import { ZONE_COORDS, coordFor } from '../../lib/worldMap'
 import { TOOLS } from '../../lib/registry'
 
 const tool = TOOLS.find((t) => t.id === 'timezone-converter')!
@@ -87,8 +89,30 @@ export default function TimezoneConverter() {
     setAddZone('')
   }
 
+  const mapPins = useMemo(() => {
+    const pins: { timeZone: string; lat: number; lon: number; label: string; time: string; isSource?: boolean }[] = []
+    if (sourceZone in ZONE_COORDS) {
+      const [lat, lon] = coordFor(sourceZone)
+      pins.push({ timeZone: sourceZone, lat, lon, label: sourceResult.label, time: sourceResult.time, isSource: true })
+    }
+    for (const { zone, result } of results) {
+      if (zone in ZONE_COORDS) {
+        const [lat, lon] = coordFor(zone)
+        pins.push({ timeZone: zone, lat, lon, label: result.label, time: result.time })
+      }
+    }
+    return pins
+  }, [sourceZone, sourceResult, results])
+
   return (
     <ToolLayout tool={tool}>
+      <WorldMap pins={mapPins} now={instant} />
+      {mapPins.length < 1 + results.length && (
+        <p className="text-xs text-text-faint">
+          The map only plots cities from the popular list -- some added timezones won't have a pin yet.
+        </p>
+      )}
+
       <div className="rounded-xl border border-border bg-bg-sunken p-4">
         <p className={labelCls}>From</p>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
