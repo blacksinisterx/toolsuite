@@ -110,6 +110,15 @@ export function LatexIcon() {
   )
 }
 
+export function PrivacyIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" {...stroke} aria-hidden="true">
+      <path d="M12 3 4 6v6c0 4.5 3 7.5 8 9 5-1.5 8-4.5 8-9V6l-8-3Z" />
+      <path d="m9 12 2 2 4-4" />
+    </svg>
+  )
+}
+
 export const CATEGORY_ICONS: Record<ToolCategory, () => ReactElement> = {
   pdf: PdfIcon,
   images: ImageIcon,
@@ -124,4 +133,5 @@ export const CATEGORY_ICONS: Record<ToolCategory, () => ReactElement> = {
   video: VideoIcon,
   audio: AudioIcon,
   latex: LatexIcon,
+  privacy: PrivacyIcon,
 }

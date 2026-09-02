@@ -17,6 +17,7 @@ export const CATEGORY_VAR: Record<ToolCategory, string> = {
   video: '--cat-video',
   audio: '--cat-audio',
   latex: '--cat-latex',
+  privacy: '--cat-privacy',
 }
 
 export function categoryColor(category: ToolCategory): string {

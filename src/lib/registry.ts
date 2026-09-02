@@ -14,6 +14,7 @@ export const CATEGORIES: CategoryMeta[] = [
   { id: 'video', label: 'Video', description: 'Convert, compress, trim and export video' },
   { id: 'audio', label: 'Audio', description: 'Convert, trim and adjust audio' },
   { id: 'latex', label: 'LaTeX', description: 'Write and compile real LaTeX documents' },
+  { id: 'privacy', label: 'Privacy', description: 'Scan text and files for sensitive data before you share them' },
 ]
 
 // Every tool here is fully working and 100% client-side (Phase 1 scope).
@@ -52,18 +53,29 @@ export const TOOLS: ToolMeta[] = [
   { id: 'jwt-decoder', name: 'JWT Decoder', description: 'Decode a JWT header and payload (no verification).', category: 'developer', path: '/developer/jwt-decoder', keywords: ['jwt', 'token', 'decode', 'auth'], processing: 'client' },
   { id: 'uuid-generator', name: 'UUID Generator', description: 'Generate random UUID v4 identifiers.', category: 'developer', path: '/developer/uuid-generator', keywords: ['uuid', 'guid', 'generator', 'id'], processing: 'client' },
   { id: 'regex-tester', name: 'Regex Tester', description: 'Test a regular expression against sample text, live.', category: 'developer', path: '/developer/regex-tester', keywords: ['regex', 'regexp', 'test', 'pattern'], processing: 'client' },
+  { id: 'json-yaml', name: 'JSON ⇄ YAML', description: 'Convert between JSON and YAML.', category: 'developer', path: '/developer/json-yaml', keywords: ['json', 'yaml', 'yml', 'convert'], processing: 'client' },
+  { id: 'json-xml', name: 'JSON ⇄ XML', description: 'Convert between JSON and XML.', category: 'developer', path: '/developer/json-xml', keywords: ['json', 'xml', 'convert'], processing: 'client' },
+  { id: 'sql-formatter', name: 'SQL Formatter', description: 'Format and indent SQL for MySQL, PostgreSQL, SQLite and more.', category: 'developer', path: '/developer/sql-formatter', keywords: ['sql', 'format', 'beautify', 'query'], processing: 'client' },
+  { id: 'html-formatter', name: 'HTML/CSS/JS Formatter', description: 'Beautify and indent HTML, CSS or JavaScript.', category: 'developer', path: '/developer/html-formatter', keywords: ['html', 'css', 'javascript', 'format', 'beautify', 'pretty print'], processing: 'client' },
 
   // Text
   { id: 'word-counter', name: 'Word Counter', description: 'Count words, characters, sentences and reading time.', category: 'text', path: '/text/word-counter', keywords: ['word', 'count', 'character', 'counter'], processing: 'client' },
   { id: 'case-converter', name: 'Case Converter', description: 'Convert text between upper, lower, title and sentence case.', category: 'text', path: '/text/case-converter', keywords: ['case', 'uppercase', 'lowercase', 'title case', 'convert'], processing: 'client' },
   { id: 'text-diff', name: 'Text Diff', description: 'Compare two blocks of text and see what changed.', category: 'text', path: '/text/diff', keywords: ['diff', 'compare', 'text', 'difference'], processing: 'client' },
   { id: 'markdown-editor', name: 'Markdown Editor', description: 'Write Markdown with a live rendered preview.', category: 'text', path: '/text/markdown-editor', keywords: ['markdown', 'editor', 'preview', 'md'], processing: 'client' },
+  { id: 'text-cleaner', name: 'Text Cleaner', description: 'Remove duplicate lines, trim whitespace, and drop empty lines.', category: 'text', path: '/text/cleaner', keywords: ['remove', 'duplicate', 'lines', 'whitespace', 'trim', 'clean'], processing: 'client' },
+  { id: 'lorem-ipsum', name: 'Lorem Ipsum Generator', description: 'Generate placeholder text by paragraphs, sentences or words.', category: 'text', path: '/text/lorem-ipsum', keywords: ['lorem', 'ipsum', 'placeholder', 'dummy text', 'generator'], processing: 'client' },
 
   // Utilities
   { id: 'qr-generator', name: 'QR Generator', description: 'Create a QR code for a link, text or Wi-Fi network.', category: 'utilities', path: '/utilities/qr-generator', keywords: ['qr', 'code', 'generator', 'barcode'], processing: 'client' },
   { id: 'color-converter', name: 'Color Converter', description: 'Convert colors between HEX, RGB and HSL, with a picker.', category: 'utilities', path: '/utilities/color-converter', keywords: ['color', 'hex', 'rgb', 'hsl', 'converter', 'picker'], processing: 'client' },
   { id: 'password-generator', name: 'Password Generator', description: 'Generate a strong random password.', category: 'utilities', path: '/utilities/password-generator', keywords: ['password', 'generator', 'random', 'secure'], processing: 'client' },
   { id: 'calculator', name: 'Calculator', description: 'A scientific calculator for quick math.', category: 'utilities', path: '/utilities/calculator', keywords: ['calculator', 'math', 'scientific'], processing: 'client' },
+  { id: 'unit-converter', name: 'Unit Converter', description: 'Convert length, weight, temperature, area, volume, speed, time and data size.', category: 'utilities', path: '/utilities/unit-converter', keywords: ['unit', 'converter', 'length', 'weight', 'temperature', 'metric', 'imperial', 'school', 'math'], processing: 'client' },
+  { id: 'percentage-calculator', name: 'Percentage Calculator', description: 'Find a percentage of a number, what percent one number is of another, or percent change.', category: 'utilities', path: '/utilities/percentage-calculator', keywords: ['percentage', 'percent', 'calculator', 'math', 'school'], processing: 'client' },
+  { id: 'base-converter', name: 'Number Base Converter', description: 'Convert a number between binary, octal, decimal and hexadecimal.', category: 'utilities', path: '/utilities/base-converter', keywords: ['base', 'binary', 'octal', 'decimal', 'hex', 'hexadecimal', 'converter', 'math'], processing: 'client' },
+  { id: 'date-calculator', name: 'Date & Time Calculator', description: 'Find the days between two dates, or add/subtract time from a date.', category: 'utilities', path: '/utilities/date-calculator', keywords: ['date', 'time', 'calculator', 'days between', 'add', 'subtract'], processing: 'client' },
+  { id: 'random-number-generator', name: 'Random Number Generator', description: 'Generate one or many random numbers in a range, with an optional no-duplicates mode.', category: 'utilities', path: '/utilities/random-number-generator', keywords: ['random', 'number', 'generator', 'rng'], processing: 'client' },
 
   // Analyzer
   { id: 'file-analyzer', name: 'File Analyzer', description: 'Drop any file to see its type, size and hash.', category: 'analyzer', path: '/analyzer', keywords: ['file', 'analyze', 'inspect', 'hash', 'metadata', 'info'], processing: 'client' },
@@ -109,6 +121,9 @@ export const TOOLS: ToolMeta[] = [
   // serverless function. Only the .tex source is ever sent, and nothing is
   // retained after the response.
   { id: 'latex-workspace', name: 'LaTeX Workspace', description: 'Write LaTeX with real compilation and a live PDF preview.', category: 'latex', path: '/latex/workspace', keywords: ['latex', 'tex', 'compile', 'pdf', 'editor'], processing: 'server' },
+
+  // Privacy
+  { id: 'sensitive-data-scanner', name: 'Sensitive Data Scanner', description: 'Scan text for emails, phone numbers, card numbers, keys and other PII before you share it.', category: 'privacy', path: '/privacy/sensitive-data-scanner', keywords: ['pii', 'privacy', 'scan', 'sensitive', 'redact', 'email', 'credit card', 'ssn'], processing: 'client' },
 ]
 
 // Named in the spec but deliberately not built yet -- surfaced honestly in

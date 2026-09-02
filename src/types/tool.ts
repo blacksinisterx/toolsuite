@@ -12,6 +12,7 @@ export type ToolCategory =
   | 'video'
   | 'audio'
   | 'latex'
+  | 'privacy'
 
 export interface ToolMeta {
   id: string

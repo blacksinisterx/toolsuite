@@ -1,4 +1,4 @@
-# Toolbox
+# ToolSuite
 
 A free, privacy-first all-in-one utility site for files, media, documents, and developer tasks.
 
@@ -8,15 +8,19 @@ should be.
 
 ## What's built (Phase 1 + Phase 2)
 
-58 fully working tools, all client-side:
+71 fully working tools, all client-side:
 
 - **PDF** — Merge, Split, Extract Pages, Delete Pages, Rotate, Reorder (drag-and-drop),
   JPG/PNG → PDF, PDF → JPG, Compress, Watermark, Add Text (click-to-place), Page Numbers
 - **Images** — Convert (JPG/PNG/WebP), Resize, Crop, Compress, Rotate, Remove Metadata
-- **Developer** — JSON Formatter, JSON ⇄ CSV, Base64, URL Encode/Decode, Hash Generator
-  (MD5/SHA-1/256/512), JWT Decoder, UUID Generator, Regex Tester
-- **Text** — Word Counter, Case Converter, Text Diff, Markdown Editor
-- **Utilities** — QR Generator, Color Converter, Password Generator, Calculator
+- **Developer** — JSON Formatter, JSON ⇄ CSV, JSON ⇄ YAML, JSON ⇄ XML, Base64, URL Encode/Decode,
+  Hash Generator (MD5/SHA-1/256/512), JWT Decoder, UUID Generator, Regex Tester, SQL Formatter,
+  HTML/CSS/JS Formatter
+- **Text** — Word Counter, Case Converter, Text Diff, Markdown Editor, Text Cleaner (dedupe/trim),
+  Lorem Ipsum Generator
+- **Utilities** — QR Generator, Color Converter, Password Generator, Scientific Calculator,
+  Unit Converter, Percentage Calculator, Number Base Converter, Date & Time Calculator,
+  Random Number Generator
 - **File Analyzer** — type, size, hash, and format-specific metadata for any file
 - **OCR** — Image to Text, PDF to Text (real WASM OCR via Tesseract.js)
 - **Archives** — Create ZIP, Extract ZIP
@@ -26,6 +30,8 @@ should be.
 - **Video** — Converter (MP4/WebM/MOV/AVI/MKV), Compressor, Trimmer, Video → GIF, Extract Audio,
   Change Resolution (real WASM FFmpeg via ffmpeg.wasm)
 - **Audio** — Converter (MP3/WAV/M4A/OGG/FLAC), Trimmer, Compressor, Volume/Normalize
+- **Privacy** — Sensitive Data Scanner (emails, cards, keys and more, regex-based, nothing leaves
+  your browser)
 
 Plus: global search, category browsing, light/dark theme, responsive layout, and a shared
 component architecture so new tools are cheap to add.

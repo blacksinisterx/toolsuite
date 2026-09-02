@@ -35,16 +35,27 @@ const HashGenerator = lazy(() => import('./tools/developer/HashGenerator'))
 const JwtDecoder = lazy(() => import('./tools/developer/JwtDecoder'))
 const UuidGenerator = lazy(() => import('./tools/developer/UuidGenerator'))
 const RegexTester = lazy(() => import('./tools/developer/RegexTester'))
+const JsonYaml = lazy(() => import('./tools/developer/JsonYaml'))
+const JsonXml = lazy(() => import('./tools/developer/JsonXml'))
+const SqlFormatter = lazy(() => import('./tools/developer/SqlFormatter'))
+const HtmlFormatter = lazy(() => import('./tools/developer/HtmlFormatter'))
 
 const WordCounter = lazy(() => import('./tools/text/WordCounter'))
 const CaseConverter = lazy(() => import('./tools/text/CaseConverter'))
 const TextDiff = lazy(() => import('./tools/text/TextDiff'))
 const MarkdownEditor = lazy(() => import('./tools/text/MarkdownEditor'))
+const TextCleaner = lazy(() => import('./tools/text/TextCleaner'))
+const LoremIpsum = lazy(() => import('./tools/text/LoremIpsum'))
 
 const QrGenerator = lazy(() => import('./tools/utilities/QrGenerator'))
 const ColorConverter = lazy(() => import('./tools/utilities/ColorConverter'))
 const PasswordGenerator = lazy(() => import('./tools/utilities/PasswordGenerator'))
 const Calculator = lazy(() => import('./tools/utilities/Calculator'))
+const UnitConverter = lazy(() => import('./tools/utilities/UnitConverter'))
+const PercentageCalculator = lazy(() => import('./tools/utilities/PercentageCalculator'))
+const BaseConverter = lazy(() => import('./tools/utilities/BaseConverter'))
+const DateCalculator = lazy(() => import('./tools/utilities/DateCalculator'))
+const RandomNumberGenerator = lazy(() => import('./tools/utilities/RandomNumberGenerator'))
 
 const FileAnalyzer = lazy(() => import('./tools/analyzer/FileAnalyzer'))
 
@@ -72,6 +83,7 @@ const AudioCompress = lazy(() => import('./tools/audio/AudioCompress'))
 const AudioVolume = lazy(() => import('./tools/audio/AudioVolume'))
 
 const LatexWorkspace = lazy(() => import('./tools/latex/LatexWorkspace'))
+const SensitiveDataScanner = lazy(() => import('./tools/privacy/SensitiveDataScanner'))
 
 const UrlParser = lazy(() => import('./tools/web/UrlParser'))
 const UtmBuilder = lazy(() => import('./tools/web/UtmBuilder'))
@@ -120,16 +132,27 @@ export default function App() {
             <Route path="/developer/jwt-decoder" element={<JwtDecoder />} />
             <Route path="/developer/uuid-generator" element={<UuidGenerator />} />
             <Route path="/developer/regex-tester" element={<RegexTester />} />
+            <Route path="/developer/json-yaml" element={<JsonYaml />} />
+            <Route path="/developer/json-xml" element={<JsonXml />} />
+            <Route path="/developer/sql-formatter" element={<SqlFormatter />} />
+            <Route path="/developer/html-formatter" element={<HtmlFormatter />} />
 
             <Route path="/text/word-counter" element={<WordCounter />} />
             <Route path="/text/case-converter" element={<CaseConverter />} />
             <Route path="/text/diff" element={<TextDiff />} />
             <Route path="/text/markdown-editor" element={<MarkdownEditor />} />
+            <Route path="/text/cleaner" element={<TextCleaner />} />
+            <Route path="/text/lorem-ipsum" element={<LoremIpsum />} />
 
             <Route path="/utilities/qr-generator" element={<QrGenerator />} />
             <Route path="/utilities/color-converter" element={<ColorConverter />} />
             <Route path="/utilities/password-generator" element={<PasswordGenerator />} />
             <Route path="/utilities/calculator" element={<Calculator />} />
+            <Route path="/utilities/unit-converter" element={<UnitConverter />} />
+            <Route path="/utilities/percentage-calculator" element={<PercentageCalculator />} />
+            <Route path="/utilities/base-converter" element={<BaseConverter />} />
+            <Route path="/utilities/date-calculator" element={<DateCalculator />} />
+            <Route path="/utilities/random-number-generator" element={<RandomNumberGenerator />} />
 
             <Route path="/analyzer" element={<FileAnalyzer />} />
 
@@ -163,6 +186,8 @@ export default function App() {
             <Route path="/audio/volume" element={<AudioVolume />} />
 
             <Route path="/latex/workspace" element={<LatexWorkspace />} />
+
+            <Route path="/privacy/sensitive-data-scanner" element={<SensitiveDataScanner />} />
 
             <Route path="*" element={<NotFound />} />
           </Route>
