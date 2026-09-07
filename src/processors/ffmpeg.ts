@@ -38,9 +38,14 @@ const MIME: Record<string, string> = {
 
 // A stuck/very-heavy WASM encode had no ceiling before -- it just spun
 // forever with the progress bar frozen and no way out except reloading the
-// tab. 5 minutes is generous for anything this app's tools are meant for
-// (short clips), and turns a silent hang into a real, actionable error.
-const MAX_RUN_MS = 5 * 60 * 1000
+// tab. Longer real videos (10-15+ min) genuinely take a while on a
+// single-threaded WASM encoder without being stuck, though -- a flat cap on
+// total run time killed those too even while progress was still climbing.
+// So this only fires on a real stall (no progress for STALL_MS), with a
+// generous absolute ceiling as a last-resort net for a job that never
+// reports progress at all.
+const STALL_MS = 3 * 60 * 1000
+const ABSOLUTE_MAX_MS = 45 * 60 * 1000
 
 async function attempt(
   ffmpeg: FFmpeg,
@@ -50,29 +55,43 @@ async function attempt(
   args: string[],
   onProgress?: (ratio: number) => void,
 ): Promise<Blob> {
-  const onProgressEvent = ({ progress }: { progress: number }) => onProgress?.(Math.min(1, Math.max(0, progress)))
+  let lastProgressAt = Date.now()
+  const onProgressEvent = ({ progress }: { progress: number }) => {
+    lastProgressAt = Date.now()
+    onProgress?.(Math.min(1, Math.max(0, progress)))
+  }
   if (onProgress) ffmpeg.on('progress', onProgressEvent)
   try {
     await ffmpeg.writeFile(inName, await fetchFile(file))
+    const startedAt = Date.now()
     let timer: ReturnType<typeof setTimeout>
-    const timeout = new Promise<never>((_, reject) => {
-      timer = setTimeout(() => {
-        // Order matters: settling the race via reject() must happen BEFORE
-        // ffmpeg.terminate() -- terminating the worker rejects the in-flight
-        // exec() promise too (with ffmpeg's own unhelpful "called
-        // FFmpeg.terminate()" message), and whichever promise settles first
-        // wins the race. Terminating first let that generic message win in
-        // practice, so this readable one never actually reached the user.
-        reject(new Error('This is taking too long -- try a smaller file, a lower resolution, or a shorter clip.'))
-        // .exec() itself has no cancel -- terminate the whole worker so it
-        // actually stops burning CPU, and drop the cached instance so the
-        // next tool call gets a fresh one instead of a dead reference.
-        ffmpeg.terminate()
-        ffmpegPromise = null
-      }, MAX_RUN_MS)
+    const watchdog = new Promise<never>((_, reject) => {
+      const check = () => {
+        const now = Date.now()
+        const stalled = now - lastProgressAt > STALL_MS
+        const tooLong = now - startedAt > ABSOLUTE_MAX_MS
+        if (stalled || tooLong) {
+          // Order matters: settling the race via reject() must happen
+          // BEFORE ffmpeg.terminate() -- terminating the worker rejects the
+          // in-flight exec() promise too (with ffmpeg's own unhelpful
+          // "called FFmpeg.terminate()" message), and whichever promise
+          // settles first wins the race.
+          reject(new Error(stalled
+            ? "This got stuck -- no progress for a few minutes. Try a smaller file, a lower resolution, or a shorter clip."
+            : 'This is taking unusually long even with steady progress -- try a smaller file, a lower resolution, or a shorter clip.'))
+          // .exec() itself has no cancel -- terminate the whole worker so it
+          // actually stops burning CPU, and drop the cached instance so the
+          // next tool call gets a fresh one instead of a dead reference.
+          ffmpeg.terminate()
+          ffmpegPromise = null
+        } else {
+          timer = setTimeout(check, 5000)
+        }
+      }
+      timer = setTimeout(check, 5000)
     })
     try {
-      await Promise.race([ffmpeg.exec(['-i', inName, ...args, outName]), timeout])
+      await Promise.race([ffmpeg.exec(['-i', inName, ...args, outName]), watchdog])
     } finally {
       clearTimeout(timer!)
     }
