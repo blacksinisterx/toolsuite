@@ -57,12 +57,18 @@ async function attempt(
     let timer: ReturnType<typeof setTimeout>
     const timeout = new Promise<never>((_, reject) => {
       timer = setTimeout(() => {
+        // Order matters: settling the race via reject() must happen BEFORE
+        // ffmpeg.terminate() -- terminating the worker rejects the in-flight
+        // exec() promise too (with ffmpeg's own unhelpful "called
+        // FFmpeg.terminate()" message), and whichever promise settles first
+        // wins the race. Terminating first let that generic message win in
+        // practice, so this readable one never actually reached the user.
+        reject(new Error('This is taking too long -- try a smaller file, a lower resolution, or a shorter clip.'))
         // .exec() itself has no cancel -- terminate the whole worker so it
         // actually stops burning CPU, and drop the cached instance so the
         // next tool call gets a fresh one instead of a dead reference.
         ffmpeg.terminate()
         ffmpegPromise = null
-        reject(new Error('This is taking too long -- try a smaller file, a lower resolution, or a shorter clip.'))
       }, MAX_RUN_MS)
     })
     try {
