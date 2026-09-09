@@ -36,6 +36,29 @@ const STYLES: Record<string, AlphaStyle> = {
   monospace: { upperStart: 0x1d670, lowerStart: 0x1d68a, digitStart: 0x1d7f6 },
 }
 
+// Reverse lookup (styled char -> plain ASCII), built once from the same
+// tables above -- used by "Clear formatting" so it's a real inverse, not a
+// second hand-maintained table that could drift from the forward one.
+const REVERSE = new Map<string, string>()
+for (const def of Object.values(STYLES)) {
+  for (let i = 0; i < 26; i++) {
+    if (def.upperStart !== undefined) REVERSE.set(String.fromCodePoint(def.upperStart + i), String.fromCharCode(65 + i))
+    if (def.lowerStart !== undefined) REVERSE.set(String.fromCodePoint(def.lowerStart + i), String.fromCharCode(97 + i))
+  }
+  for (let i = 0; i < 10; i++) {
+    if (def.digitStart !== undefined) REVERSE.set(String.fromCodePoint(def.digitStart + i), String.fromCharCode(48 + i))
+  }
+  if (def.space !== undefined) REVERSE.set(def.space, ' ')
+  if (def.exceptions) for (const [plain, styled] of Object.entries(def.exceptions)) REVERSE.set(styled, plain)
+}
+
+export function clearFormatting(s: string): string {
+  return [...s]
+    .map((c) => REVERSE.get(c) ?? c)
+    .join('')
+    .replace(/[\u0332\u0336]/g, '')
+}
+
 function mapChar(c: string, def: AlphaStyle): string {
   if (def.exceptions?.[c]) return def.exceptions[c]
   const code = c.codePointAt(0)!
@@ -65,6 +88,51 @@ function eachNonEmptyLine(s: string, fn: (line: string, i: number) => string): s
     .split('\n')
     .map((line) => (line.trim() ? fn(line, i++) : line))
     .join('\n')
+}
+
+// Selection-aware helpers for a real toolbar: apply a style to just the
+// selected substring (or the whole text if nothing's selected), matching
+// how a real formatting toolbar behaves rather than always transforming
+// the entire post.
+export type InlineStyle = 'bold' | 'italic' | 'underline' | 'strikethrough'
+
+export function applyInlineStyle(text: string, start: number, end: number, style: InlineStyle): { text: string; start: number; end: number } {
+  const [from, to] = start === end ? [0, text.length] : [start, end]
+  const selected = text.slice(from, to)
+  const styled =
+    style === 'bold' ? apply(selected, 'bold')
+    : style === 'italic' ? apply(selected, 'italic')
+    : style === 'underline' ? withCombining(selected, COMBINING_UNDERLINE, false)
+    : withCombining(selected, COMBINING_STRIKETHROUGH, false)
+  return { text: text.slice(0, from) + styled + text.slice(to), start: from, end: from + styled.length }
+}
+
+// Bullet/numbered apply per-line, scoped to whichever lines the selection
+// touches (a collapsed cursor touches just its own line) -- lines outside
+// that range are left untouched, same as a real editor's list button.
+export type ListStyle = 'bullet' | 'numbered' | 'checklist'
+
+export function applyListStyle(text: string, start: number, end: number, style: ListStyle): { text: string; start: number; end: number } {
+  const lines = text.split('\n')
+  let idx = 0
+  let startLine = 0
+  let endLine = lines.length - 1
+  for (let i = 0; i < lines.length; i++) {
+    const lineStart = idx
+    const lineEnd = idx + lines[i].length
+    if (start >= lineStart && start <= lineEnd) startLine = i
+    if (end >= lineStart && end <= lineEnd) endLine = i
+    idx = lineEnd + 1
+  }
+  let n = 1
+  const newLines = lines.map((line, i) => {
+    if (i < startLine || i > endLine || !line.trim()) return line
+    if (style === 'bullet') return `• ${line}`
+    if (style === 'checklist') return `☑ ${line}`
+    return `${n++}. ${line}`
+  })
+  const newText = newLines.join('\n')
+  return { text: newText, start: 0, end: newText.length }
 }
 
 export interface LinkedInStyleOption {
