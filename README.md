@@ -26,7 +26,7 @@ that briefly touches a server.
 
 ## What's built
 
-91 fully working tools, all client-side unless noted:
+92 fully working tools, all client-side unless noted:
 
 - **PDF** — Merge, Split, Extract Pages, Delete Pages, Rotate, Reorder (drag-and-drop),
   JPG/PNG → PDF, PDF → JPG, Compress, Watermark, PDF Annotator (text/highlight/rectangle, any
@@ -38,7 +38,7 @@ that briefly touches a server.
   Hash Generator (MD5/SHA-1/256/512), JWT Decoder, UUID Generator, Regex Tester, SQL Formatter,
   HTML/CSS/JS Formatter
 - **Text** — Word Counter, Case Converter, Text Diff, Markdown Editor, Text Cleaner (dedupe/trim),
-  Lorem Ipsum Generator, URL Slug Generator
+  Lorem Ipsum Generator, URL Slug Generator, LinkedIn Text Formatter
 - **Utilities** — QR Generator, QR Scanner, Color Converter, Color Palette Generator,
   Gradient Generator, Favicon Generator, Password Generator, Scientific Calculator,
   Unit Converter, Percentage Calculator, Number Base Converter, Date & Time Calculator,

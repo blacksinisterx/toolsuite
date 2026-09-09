@@ -53,6 +53,7 @@ const MarkdownEditor = lazy(() => import('./tools/text/MarkdownEditor'))
 const TextCleaner = lazy(() => import('./tools/text/TextCleaner'))
 const LoremIpsum = lazy(() => import('./tools/text/LoremIpsum'))
 const SlugGenerator = lazy(() => import('./tools/text/SlugGenerator'))
+const LinkedInFormatter = lazy(() => import('./tools/text/LinkedInFormatter'))
 
 const QrGenerator = lazy(() => import('./tools/utilities/QrGenerator'))
 const ColorConverter = lazy(() => import('./tools/utilities/ColorConverter'))
@@ -172,6 +173,7 @@ export default function App() {
             <Route path="/text/cleaner" element={<TextCleaner />} />
             <Route path="/text/lorem-ipsum" element={<LoremIpsum />} />
             <Route path="/text/slug" element={<SlugGenerator />} />
+            <Route path="/text/linkedin-formatter" element={<LinkedInFormatter />} />
 
             <Route path="/utilities/qr-generator" element={<QrGenerator />} />
             <Route path="/utilities/color-converter" element={<ColorConverter />} />

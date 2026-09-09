@@ -73,6 +73,7 @@ export const TOOLS: ToolMeta[] = [
   { id: 'text-cleaner', name: 'Text Cleaner', description: 'Remove duplicate lines, trim whitespace, and drop empty lines.', category: 'text', path: '/text/cleaner', keywords: ['remove', 'duplicate', 'lines', 'whitespace', 'trim', 'clean'], processing: 'client' },
   { id: 'lorem-ipsum', name: 'Lorem Ipsum Generator', description: 'Generate placeholder text by paragraphs, sentences or words.', category: 'text', path: '/text/lorem-ipsum', keywords: ['lorem', 'ipsum', 'placeholder', 'dummy text', 'generator'], processing: 'client' },
   { id: 'slug-generator', name: 'URL Slug Generator', description: 'Turn any text into a clean, URL-safe slug.', category: 'text', path: '/text/slug', keywords: ['slug', 'url', 'seo', 'permalink', 'kebab-case', 'snake_case'], processing: 'client' },
+  { id: 'linkedin-formatter', name: 'LinkedIn Text Formatter', description: 'Bold, italic and other Unicode text styles for LinkedIn posts, with a live preview.', category: 'text', path: '/text/linkedin-formatter', keywords: ['linkedin', 'bold', 'italic', 'unicode', 'text', 'formatter', 'social'], processing: 'client' },
 
   // Utilities
   { id: 'qr-generator', name: 'QR Generator', description: 'Create a QR code for a link, text or Wi-Fi network.', category: 'utilities', path: '/utilities/qr-generator', keywords: ['qr', 'code', 'generator', 'barcode'], processing: 'client' },
