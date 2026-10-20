@@ -168,6 +168,12 @@ are required to deploy; `UPSTASH_REDIS_REST_URL`/`UPSTASH_REDIS_REST_TOKEN` are 
 above). `vercel.json` also adds the rewrite a client-side router needs (every path serves
 `index.html` so React Router can take over) and the security headers described above.
 
+## SEO
+
+The app is a single-page app, so `npm run build` also runs `scripts/build-seo.mjs`, which writes one static HTML file per route (112 pages: home, 17 categories, 92 tools, 2 info pages). Each has its own title, description, canonical URL, Open Graph and Twitter tags, JSON-LD (`WebApplication` + `BreadcrumbList` for tools) and crawlable links, which React replaces on load. It also writes `sitemap.xml`, `robots.txt` and a real `404.html`. `scripts/check-seo.mjs` fails the build if a route has no page, a title or description is duplicated or too long, JSON-LD is invalid, or the sitemap and the `noindex` flags disagree.
+
+Page data lives in `src/lib/seo.ts`, shared by the build and the app (which keeps the tab title right on in-app navigation). `vercel.json` serves `/pdf/merge` from `pdf/merge.html`; unknown URLs return a real 404 instead of the home page.
+
 ## Project structure
 
 ```

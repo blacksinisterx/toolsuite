@@ -5,6 +5,7 @@ import { Sidebar } from './Sidebar'
 import { Logomark } from './Logomark'
 import { SearchBar } from './SearchBar'
 import { ThemeToggle } from './ThemeToggle'
+import { SITE, seoFor } from '../lib/seo'
 
 export function RootLayout() {
   const [drawerOpen, setDrawerOpen] = useState(false)
@@ -16,6 +17,20 @@ export function RootLayout() {
   // lands you mid-page instead of at the tool's own top.
   useEffect(() => {
     window.scrollTo(0, 0)
+  }, [location.pathname])
+
+  // The static HTML already carries the right tags for the first load; this
+  // keeps the tab title, description and canonical right after in-app navigation.
+  useEffect(() => {
+    const page = seoFor(location.pathname)
+    if (!page) return
+    document.title = page.title
+    const set = (sel: string, make: () => HTMLElement, attr: string, value: string) => {
+      const el = document.head.querySelector(sel) ?? document.head.appendChild(make())
+      el.setAttribute(attr, value)
+    }
+    set('meta[name="description"]', () => Object.assign(document.createElement('meta'), { name: 'description' }), 'content', page.description)
+    set('link[rel="canonical"]', () => Object.assign(document.createElement('link'), { rel: 'canonical' }), 'href', SITE + (page.path === '/' ? '/' : page.path))
   }, [location.pathname])
 
   return (
